@@ -1,6 +1,6 @@
 import { redirect, Form, useLoaderData } from "react-router";
-import { login } from "../../shopify.server";
 import { useState } from "react";
+import { login } from "../../shopify.server";
 
 export const loader = async ({ request }) => {
   const url = new URL(request.url);
@@ -12,186 +12,312 @@ export const loader = async ({ request }) => {
   return { showForm: Boolean(login) };
 };
 
+const StarRating = ({ compact = false }) => (
+  <div className="flex items-center gap-1 text-[#f6c46a]">
+    {Array.from({ length: 5 }).map((_, index) => (
+      <svg
+        key={index}
+        aria-hidden="true"
+        className={compact ? "h-3.5 w-3.5" : "h-4 w-4"}
+        viewBox="0 0 20 20"
+        fill="currentColor"
+      >
+        <path d="M9.16 2.64c.3-.92 1.6-.92 1.9 0l1.11 3.42a1 1 0 0 0 .95.69h3.6c.96 0 1.36 1.23.58 1.8l-2.91 2.12a1 1 0 0 0-.36 1.11l1.11 3.42c.3.92-.76 1.68-1.54 1.11l-2.91-2.11a1 1 0 0 0-1.18 0L6.6 16.31c-.78.57-1.84-.19-1.54-1.11l1.11-3.42a1 1 0 0 0-.36-1.11L2.9 8.55c-.78-.57-.38-1.8.58-1.8h3.6a1 1 0 0 0 .95-.69l1.13-3.42Z" />
+      </svg>
+    ))}
+  </div>
+);
+
+const Icon = ({ children }) => (
+  <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.045] text-[#d687ff] shadow-[0_16px_40px_rgba(127,76,255,0.12)]">
+    {children}
+  </div>
+);
+
+const features = [
+  {
+    title: "Review Widgets",
+    desc: "Show polished testimonials, ratings, and buyer stories in conversion-focused layouts.",
+    icon: (
+      <path d="M5 5h14v10H9l-4 4V5Zm4 4h6M9 12h4" />
+    ),
+  },
+  {
+    title: "Template Control",
+    desc: "Launch compact grids, premium sliders, quote cards, and high-trust showcase sections.",
+    icon: (
+      <path d="M4 5h16M4 10h7M4 15h16M15 10h5" />
+    ),
+  },
+  {
+    title: "Shopify Native",
+    desc: "Install through Shopify, manage plans cleanly, and keep storefront performance light.",
+    icon: (
+      <path d="M8 8V6a4 4 0 0 1 8 0v2m-9 0h10l-1 11H8L7 8Z" />
+    ),
+  },
+];
+
+const templates = [
+  { tier: "FREE", name: "Clean Trust", accent: "from-slate-300 to-white", layout: "list" },
+  { tier: "STARTER", name: "Social Strip", accent: "from-[#77d7ff] to-[#8d9cff]", layout: "strip" },
+  {
+    tier: "GROWTH",
+    name: "Authority Wall",
+    accent: "from-[#a879ff] to-[#f15aa8]",
+    badge: "Most Popular",
+    layout: "grid",
+  },
+  { tier: "PREMIUM", name: "Luxury Carousel", accent: "from-[#f3c96b] to-[#f06cae]", layout: "carousel" },
+];
+
 export default function Index() {
   const { showForm } = useLoaderData();
   const [shopUrl, setShopUrl] = useState("");
 
   return (
-    <div className="min-h-screen bg-[#0a0a0a] text-slate-50 font-sans selection:bg-[#c084fc]/30 selection:text-[#c084fc] overflow-x-hidden">
-      
-      {/* Subtle Background Glow */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden flex items-start justify-center">
-        <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[#9333ea]/10 blur-[150px]"></div>
+    <div className="min-h-screen overflow-x-hidden bg-[#05050c] font-sans text-white selection:bg-[#bd65ff]/25 selection:text-white">
+      <div className="pointer-events-none fixed inset-0">
+        <div className="absolute left-[-180px] top-[-190px] h-[520px] w-[520px] rounded-full bg-[#6e3dff]/18 blur-[125px]" />
+        <div className="absolute right-[-220px] top-[250px] h-[500px] w-[500px] rounded-full bg-[#e34a9e]/10 blur-[140px]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.035)_0,transparent_34%),linear-gradient(180deg,rgba(7,7,18,0)_0%,#05050c_78%)]" />
       </div>
 
-      {/* 🧭 1. Premium Navbar */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/[0.05]">
-        <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer">
-            <span className="text-lg font-bold tracking-tight text-white">TestiCraft</span>
+      <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#060611]/72 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 max-w-[1230px] items-center justify-between px-5 sm:px-7">
+          <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#7f55ff] to-[#ef5b9e] shadow-[0_12px_35px_rgba(151,86,255,0.3)]">
+              <svg className="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
+                <path d="M7 9h10M7 13h6" />
+                <path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+              </svg>
+            </span>
+            <span className="text-[19px] font-bold tracking-[-0.02em] text-white">TestiCraft</span>
+          </a>
+
+          <div className="hidden items-center gap-8 text-[13px] font-medium text-slate-400 md:flex">
+            <a className="transition hover:text-white" href="#features">Features</a>
+            <a className="transition hover:text-white" href="#install">Install</a>
+            <a className="transition hover:text-white" href="#templates">Templates</a>
           </div>
-          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#templates" className="hover:text-white transition-colors">Templates</a>
-            <a href="#install" className="hover:text-white transition-colors">Install</a>
-          </div>
+
+          <a
+            href="#install"
+            className="hidden rounded-lg border border-white/10 bg-white/[0.055] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_12px_35px_rgba(0,0,0,0.18)] transition hover:border-white/18 hover:bg-white/[0.085] sm:inline-flex"
+          >
+            Get Started
+          </a>
         </div>
       </nav>
 
-      <main className="relative z-10 pt-28 pb-20 flex flex-col items-center">
-        
-        {/* 🏆 2. Hero Section */}
-        <section className="w-full max-w-[1200px] mx-auto px-6 mb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
-          
-          {/* LEFT: Copy */}
-          <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
-            <h1 className="text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.15] tracking-tight mb-5">
-              Elevate Your Shopify <br/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] to-[#ec4899]">Social Proof</span>
+      <main className="relative z-10">
+        <section className="mx-auto grid min-h-[640px] w-full max-w-[1230px] items-center gap-11 px-5 pb-16 pt-16 sm:px-7 sm:pt-20 lg:grid-cols-[0.92fr_1.08fr] lg:gap-9 lg:pb-20">
+          <div className="mx-auto max-w-[590px] text-center lg:mx-0 lg:text-left">
+            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.045] px-3.5 py-2 text-[12px] font-semibold text-slate-300 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#80ffaa] shadow-[0_0_18px_rgba(128,255,170,0.8)]" />
+              Shopify testimonial widgets
+            </div>
+
+            <h1 className="text-[clamp(2.35rem,7vw,4.65rem)] font-extrabold leading-[0.98] tracking-[-0.045em] text-white">
+              Elevate Your Shopify
+              <span className="block bg-gradient-to-r from-[#8d61ff] via-[#c55cf3] to-[#ef579e] bg-clip-text pt-2 text-transparent">
+                Social Proof
+              </span>
             </h1>
-            
-            <p className="text-[17px] text-[#8892b0] leading-relaxed mb-8 max-w-[480px]">
-              Transform your store's credibility into a high-converting, professional testimonial experience in seconds.
+
+            <p className="mx-auto mt-6 max-w-[540px] text-[clamp(1rem,2.4vw,1.18rem)] leading-8 text-[#9da7bd] lg:mx-0">
+              Turn customer reviews into polished, high-converting testimonial sections that feel native to premium Shopify stores.
             </p>
 
-            <div className="flex items-center gap-4">
-              <a href="#install" className="bg-white text-black font-semibold text-sm px-6 py-3 rounded-lg hover:bg-slate-200 transition-colors shadow-lg shadow-white/10">
-                Install App
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+              <a
+                href="#install"
+                className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-white px-6 text-[14px] font-bold text-[#090912] shadow-[0_18px_55px_rgba(255,255,255,0.14)] transition hover:-translate-y-0.5 hover:bg-[#f3f4ff] sm:w-auto"
+              >
+                Install TestiCraft
               </a>
-              <a href="#templates" className="text-sm font-medium text-slate-300 hover:text-white px-4 py-3 transition-colors">
-                View Templates →
+              <a
+                href="#templates"
+                className="inline-flex h-12 w-full items-center justify-center rounded-lg border border-white/10 bg-white/[0.045] px-6 text-[14px] font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-white/18 hover:bg-white/[0.075] sm:w-auto"
+              >
+                View Templates
               </a>
             </div>
           </div>
-          
-          {/* RIGHT: Mockup */}
-          <div className="w-full lg:w-1/2 relative min-h-[400px] flex justify-center lg:justify-end items-center">
-            {/* Base Dashboard Mockup */}
-            <div className="w-full max-w-[500px] h-[320px] bg-[#111111] border border-white/10 rounded-xl shadow-2xl relative overflow-hidden flex flex-col">
-              {/* Header */}
-              <div className="h-10 border-b border-white/10 bg-[#161616] flex items-center px-4 gap-2">
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
-              </div>
-              {/* Content area */}
-              <div className="flex-1 p-6 relative">
-                 <div className="w-1/3 h-4 bg-white/10 rounded mb-6"></div>
-                 <div className="grid grid-cols-2 gap-4">
-                   <div className="h-24 bg-white/5 rounded-lg border border-white/5"></div>
-                   <div className="h-24 bg-white/5 rounded-lg border border-white/5"></div>
-                 </div>
+
+          <div className="relative mx-auto flex min-h-[430px] w-full max-w-[580px] items-center justify-center lg:min-h-[500px]">
+            <div className="absolute inset-x-10 top-12 h-72 rounded-full bg-gradient-to-r from-[#7d5cff]/18 to-[#ec5a9d]/16 blur-3xl" />
+
+            <div className="relative w-full rounded-2xl border border-white/[0.095] bg-[#0c0d18]/82 p-3 shadow-[0_32px_90px_rgba(0,0,0,0.46)] backdrop-blur-xl">
+              <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-[#080913]">
+                <div className="flex h-11 items-center justify-between border-b border-white/[0.07] bg-white/[0.035] px-4">
+                  <div className="flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b82]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#ffc85e]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#63df91]" />
+                  </div>
+                  <div className="h-2 w-28 rounded-full bg-white/10" />
+                </div>
+
+                <div className="grid gap-4 p-5 sm:grid-cols-[0.9fr_1.1fr]">
+                  <div className="rounded-xl border border-white/[0.07] bg-white/[0.04] p-4">
+                    <p className="text-[12px] font-semibold text-slate-400">Reviews collected</p>
+                    <div className="mt-4 flex items-end gap-2">
+                      <span className="text-4xl font-extrabold tracking-[-0.04em]">2,486</span>
+                      <span className="pb-1 text-[12px] font-bold text-[#83f3aa]">+28%</span>
+                    </div>
+                    <div className="mt-5 flex h-24 items-end gap-2">
+                      {[42, 58, 36, 76, 64, 92, 82].map((height, index) => (
+                        <span
+                          key={index}
+                          className="flex-1 rounded-t-md bg-gradient-to-t from-[#8a61ff]/45 to-[#f05aa0]/80"
+                          style={{ height: `${height}%` }}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-3">
+                    {[
+                      ["Maya A.", "The reviews look custom-built for our theme.", "Verified buyer"],
+                      ["Daniel K.", "Setup took minutes and the carousel is beautiful.", "Repeat customer"],
+                    ].map(([name, text, tag]) => (
+                      <div key={name} className="rounded-xl border border-white/[0.075] bg-[#111321]/80 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.22)]">
+                        <div className="mb-3 flex items-center justify-between gap-3">
+                          <StarRating compact />
+                          <span className="rounded-full bg-[#1c2a22] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#8ff0b0]">{tag}</span>
+                        </div>
+                        <p className="text-[13px] leading-5 text-slate-300">"{text}"</p>
+                        <p className="mt-3 text-[13px] font-semibold text-white">{name}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
 
-            {/* Floating Review Card */}
-            <div className="absolute top-1/2 left-[-20px] lg:left-[-40px] transform -translate-y-1/2 w-[280px] bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
-              <div className="flex gap-1 text-[#fbbf24] mb-3">
-                {[...Array(5)].map((_, i) => (
-                  <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                ))}
-              </div>
-              <p className="text-slate-300 text-[13px] leading-relaxed mb-4">"Conversion rates skyrocketed since we added these widgets. Absolute game changer for our store."</p>
-              <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#a855f7] to-[#ec4899]"></div>
+            <div className="absolute -left-1 bottom-8 w-[245px] rounded-2xl border border-white/[0.11] bg-[#111322]/88 p-4 shadow-[0_22px_65px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:-left-6 sm:bottom-10">
+              <StarRating />
+              <p className="mt-3 text-[13px] leading-6 text-slate-300">"Our store finally has social proof that looks as premium as the products."</p>
+              <div className="mt-4 flex items-center gap-3">
+                <div className="h-9 w-9 rounded-full bg-gradient-to-br from-[#8b68ff] to-[#f05b9f]" />
                 <div>
-                  <div className="text-white text-[13px] font-medium">Sarah Jenkins</div>
-                  <div className="text-slate-500 text-[11px]">Verified Buyer</div>
+                  <p className="text-[13px] font-bold text-white">Sarah Jenkins</p>
+                  <p className="text-[11px] text-slate-500">Store owner</p>
                 </div>
               </div>
+            </div>
+
+            <div className="absolute -right-1 top-9 rounded-xl border border-white/[0.09] bg-[#101223]/90 px-4 py-3 shadow-[0_20px_55px_rgba(0,0,0,0.36)] backdrop-blur-xl sm:right-0">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Trust lift</p>
+              <p className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-white">31%</p>
             </div>
           </div>
         </section>
 
-        {/* 🔐 3. Shopify Install Card */}
         {showForm && (
-          <section id="install" className="w-full max-w-[1200px] mx-auto px-6 mb-32 flex justify-center">
-            <div className="w-full max-w-[440px] bg-[#0f0f0f] border border-white-[0.08] rounded-xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
-              <Form method="post" action="/auth/login" className="flex flex-col gap-5">
-                <div className="flex flex-col gap-2">
-                  <label className="text-[13px] font-medium text-slate-300">
-                    Shopify Domain
-                  </label>
+          <section id="install" className="mx-auto w-full max-w-[1230px] px-5 py-10 sm:px-7">
+            <div className="mx-auto max-w-[540px] rounded-2xl border border-white/[0.1] bg-[#0d0e18]/86 p-5 shadow-[0_26px_85px_rgba(0,0,0,0.42),0_0_75px_rgba(141,97,255,0.11)] backdrop-blur-xl sm:p-7">
+              <Form method="post" action="/auth/login" className="space-y-4">
+                <label className="block text-[13px] font-bold text-slate-300" htmlFor="shop">
+                  Shopify Domain
+                </label>
+                <div className="flex flex-col gap-3 sm:flex-row">
                   <input
+                    id="shop"
                     type="text"
                     name="shop"
                     value={shopUrl}
-                    onChange={(e) => setShopUrl(e.currentTarget.value)}
+                    onChange={(event) => setShopUrl(event.currentTarget.value)}
                     placeholder="my-store.myshopify.com"
-                    className="w-full bg-[#161616] border border-[#222] rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all text-sm shadow-inner"
+                    className="h-12 min-w-0 flex-1 rounded-lg border border-white/[0.09] bg-[#111426] px-4 text-[15px] text-white outline-none transition placeholder:text-slate-600 focus:border-[#a879ff]/80 focus:ring-4 focus:ring-[#a879ff]/10"
                     required
                   />
+                  <button
+                    type="submit"
+                    className="h-12 rounded-lg bg-gradient-to-r from-[#875dff] to-[#ed579d] px-6 text-[14px] font-bold text-white shadow-[0_18px_45px_rgba(179,88,224,0.24)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_56px_rgba(179,88,224,0.32)] active:translate-y-0"
+                  >
+                    Install App
+                  </button>
                 </div>
-
-                <button type="submit" className="w-full bg-gradient-to-r from-[#9333ea] to-[#db2777] hover:opacity-90 text-white font-medium text-[15px] py-3 rounded-lg shadow-lg shadow-purple-900/20 transition-all active:scale-[0.98]">
-                  Install App
-                </button>
               </Form>
             </div>
           </section>
         )}
 
-        {/* ✨ 4. Feature Grid */}
-        <section id="features" className="w-full max-w-[1200px] mx-auto px-6 mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Designed for Conversion</h2>
-            <p className="text-[#8892b0] text-[15px] max-w-xl mx-auto">Everything you need to build trust without writing a single line of code.</p>
+        <section id="features" className="mx-auto w-full max-w-[1230px] px-5 py-16 sm:px-7 sm:py-20">
+          <div className="mx-auto mb-10 max-w-[620px] text-center">
+            <h2 className="text-[clamp(1.8rem,4vw,2.75rem)] font-extrabold tracking-[-0.035em] text-white">Built for believable trust</h2>
+            <p className="mt-4 text-[15px] leading-7 text-[#9da7bd]">Clean testimonial experiences that support purchase confidence without overpowering your storefront.</p>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {[
-              { title: "High-Converting Templates", desc: "Professionally designed layouts that match your brand perfectly." },
-              { title: "Mobile Optimized", desc: "Flawless rendering on every device to capture mobile shoppers." },
-              { title: "Shopify Native Billing", desc: "Secure, one-click subscriptions integrated directly into your invoice." }
-            ].map((feat, i) => (
-              <div key={i} className="p-6 rounded-xl bg-[#111] border border-white/[0.05] hover:border-white/10 transition-colors">
-                <h3 className="text-lg font-semibold text-white mb-2">{feat.title}</h3>
-                <p className="text-[#8892b0] text-[14px] leading-relaxed">{feat.desc}</p>
-              </div>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            {features.map((feature) => (
+              <article
+                key={feature.title}
+                className="group rounded-2xl border border-white/[0.075] bg-white/[0.035] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.16)] transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.055]"
+              >
+                <Icon>
+                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                    {feature.icon}
+                  </svg>
+                </Icon>
+                <h3 className="text-[18px] font-bold tracking-[-0.015em] text-white">{feature.title}</h3>
+                <p className="mt-3 text-[14px] leading-6 text-slate-400">{feature.desc}</p>
+              </article>
             ))}
           </div>
         </section>
 
-        {/* 🎠 5. Template Showcase */}
-        <section id="templates" className="w-full max-w-[1200px] mx-auto px-6 mb-20">
-           <div className="text-center mb-16">
-             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Premium Layouts</h2>
-             <p className="text-[#8892b0] text-[15px] max-w-xl mx-auto">Pick the style that fits your store.</p>
-           </div>
+        <section id="templates" className="mx-auto w-full max-w-[1230px] px-5 pb-24 pt-10 sm:px-7">
+          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <h2 className="text-[clamp(1.8rem,4vw,2.65rem)] font-extrabold tracking-[-0.035em] text-white">Template showcase</h2>
+              <p className="mt-3 max-w-[560px] text-[15px] leading-7 text-[#9da7bd]">Choose testimonial layouts that scale from a first review block to a premium proof engine.</p>
+            </div>
+            <div className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[12px] font-bold uppercase tracking-[0.12em] text-slate-400">
+              Free to Premium
+            </div>
+          </div>
 
-           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {[
-                { name: "Starter Spark", tier: "FREE", color: "text-slate-400" },
-                { name: "Growth Boost", tier: "STARTER", color: "text-blue-400" },
-                { name: "Authority Plus", tier: "GROWTH", color: "text-[#a855f7]", badge: "Most Popular" },
-                { name: "Elite Suite", tier: "PREMIUM", color: "text-pink-400" }
-              ].map((tpl, i) => (
-                <div key={i} className="relative p-6 rounded-xl bg-[#111] border border-white/[0.05] hover:border-white/10 transition-colors cursor-pointer">
-                   {tpl.badge && (
-                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-[#a855f7] text-white text-[11px] font-bold rounded-full uppercase tracking-wide shadow-lg">
-                       {tpl.badge}
-                     </div>
-                   )}
-                   <div className={`text-[11px] font-bold uppercase tracking-wider ${tpl.color} mb-2`}>{tpl.tier}</div>
-                   <h4 className="text-[17px] font-bold text-white mb-6">{tpl.name}</h4>
-                   
-                   {/* Skeleton Preview */}
-                   <div className="w-full h-[100px] rounded-lg bg-[#161616] border border-white/5 p-3 flex flex-col gap-2.5">
-                      <div className="flex gap-2">
-                        <div className="w-5 h-5 rounded-full bg-white/10"></div>
-                        <div className="flex-1 flex flex-col gap-1.5 justify-center">
-                          <div className="w-1/2 h-1 rounded-full bg-white/20"></div>
-                          <div className="w-1/3 h-1 rounded-full bg-white/10"></div>
-                        </div>
-                      </div>
-                      <div className="w-full h-1 rounded-full bg-white/10 mt-1"></div>
-                      <div className="w-4/5 h-1 rounded-full bg-white/10"></div>
-                   </div>
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            {templates.map((template) => (
+              <article
+                key={template.name}
+                className="group relative overflow-hidden rounded-2xl border border-white/[0.075] bg-[#0d0f1a] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.23)] transition duration-300 hover:-translate-y-1.5 hover:border-white/[0.15]"
+              >
+                {template.badge && (
+                  <div className="absolute right-4 top-4 rounded-full bg-white px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#15101d]">
+                    {template.badge}
+                  </div>
+                )}
+                <div className={`mb-3 inline-flex bg-gradient-to-r ${template.accent} bg-clip-text text-[11px] font-extrabold uppercase tracking-[0.15em] text-transparent`}>
+                  {template.tier}
                 </div>
-              ))}
-           </div>
-        </section>
+                <h3 className="text-[17px] font-bold tracking-[-0.015em] text-white">{template.name}</h3>
 
+                <div className="mt-5 rounded-xl border border-white/[0.07] bg-[#090b14] p-3">
+                  <div className="mb-3 flex items-center justify-between">
+                    <StarRating compact />
+                    <span className="h-2 w-10 rounded-full bg-white/10" />
+                  </div>
+                  <div className={template.layout === "grid" ? "grid grid-cols-2 gap-2" : "space-y-2"}>
+                    {Array.from({ length: template.layout === "strip" ? 3 : 2 }).map((_, index) => (
+                      <div key={index} className="rounded-lg border border-white/[0.055] bg-white/[0.045] p-3">
+                        <div className="mb-2 flex items-center gap-2">
+                          <span className={`h-6 w-6 rounded-full bg-gradient-to-br ${template.accent}`} />
+                          <span className="h-2 w-14 rounded-full bg-white/[0.18]" />
+                        </div>
+                        <span className="block h-1.5 w-full rounded-full bg-white/10" />
+                        <span className="mt-1.5 block h-1.5 w-4/5 rounded-full bg-white/10" />
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </section>
       </main>
     </div>
   );
