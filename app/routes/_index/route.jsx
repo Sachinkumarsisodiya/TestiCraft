@@ -17,99 +17,182 @@ export default function Index() {
   const [shopUrl, setShopUrl] = useState("");
 
   return (
-    <div className="min-h-screen bg-[#030303] text-slate-50 font-sans selection:bg-[#e13a9d]/30 selection:text-[#e13a9d] overflow-x-hidden flex flex-col relative">
+    <div className="min-h-screen bg-[#0a0a0a] text-slate-50 font-sans selection:bg-[#c084fc]/30 selection:text-[#c084fc] overflow-x-hidden">
       
-      {/* 🌌 Premium Ambient Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden flex items-center justify-center">
-        {/* Subtle grid pattern */}
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTAgMGg0MHY0MEgwekIiIGZpbGw9Im5vbmUiLz48cGF0aCBkPSJNMCAwTDQwIDQwTTAgNDBMNDAgMCIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDIpIiBzdHJva2Utd2lkdGg9IjAuNSIvPjwvc3ZnPg==')] opacity-[0.15]"></div>
-        
-        {/* Animated Glowing Orbs */}
-        <div className="absolute top-[-10%] left-[10%] w-[600px] h-[600px] rounded-full bg-[#9b51e0]/10 blur-[120px] animate-[pulse_8s_ease-in-out_infinite]"></div>
-        <div className="absolute bottom-[-10%] right-[10%] w-[500px] h-[500px] rounded-full bg-[#e13a9d]/10 blur-[120px] animate-[pulse_10s_ease-in-out_infinite_reverse]"></div>
-        
-        {/* Radial Vignette */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,#030303_100%)]"></div>
+      {/* Subtle Background Glow */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden flex items-start justify-center">
+        <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[#9333ea]/10 blur-[150px]"></div>
       </div>
 
-      {/* 🧭 Navigation */}
-      <nav className="relative z-50 p-6 w-full max-w-7xl mx-auto flex items-center justify-between">
-        <div className="flex items-center gap-3 cursor-pointer group">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-[#9b51e0] to-[#e13a9d] p-[1px] group-hover:shadow-[0_0_20px_rgba(225,58,157,0.4)] transition-all">
-            <div className="w-full h-full bg-[#0a0a0a] rounded-[7px] flex items-center justify-center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L2 7L12 12L22 7L12 2Z" fill="url(#grad)"/><defs><linearGradient id="grad" x1="2" y1="2" x2="22" y2="22"><stop stopColor="#9b51e0"/><stop offset="1" stopColor="#e13a9d"/></linearGradient></defs></svg>
-            </div>
+      {/* 🧭 1. Premium Navbar */}
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#0a0a0a]/80 backdrop-blur-md border-b border-white/[0.05]">
+        <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer">
+            <span className="text-lg font-bold tracking-tight text-white">TestiCraft</span>
           </div>
-          <span className="text-xl font-bold tracking-tight text-white/90 group-hover:text-white transition-colors">TestiCraft</span>
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
+            <a href="#features" className="hover:text-white transition-colors">Features</a>
+            <a href="#templates" className="hover:text-white transition-colors">Templates</a>
+            <a href="#install" className="hover:text-white transition-colors">Install</a>
+          </div>
         </div>
       </nav>
 
-      <main className="relative z-10 flex-grow flex flex-col items-center justify-center px-4 py-12 lg:py-24">
+      <main className="relative z-10 pt-28 pb-20 flex flex-col items-center">
         
-        {/* 🏆 HERO SECTION */}
-        <div className="w-full max-w-4xl mx-auto flex flex-col items-center text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/10 text-white/60 text-xs font-medium mb-8 backdrop-blur-md">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#e13a9d] animate-pulse"></span>
-            Shopify App Store Native
+        {/* 🏆 2. Hero Section */}
+        <section className="w-full max-w-[1200px] mx-auto px-6 mb-24 flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+          
+          {/* LEFT: Copy */}
+          <div className="w-full lg:w-1/2 flex flex-col items-start text-left">
+            <h1 className="text-4xl md:text-5xl lg:text-[56px] font-bold text-white leading-[1.15] tracking-tight mb-5">
+              Elevate Your Shopify <br/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#a855f7] to-[#ec4899]">Social Proof</span>
+            </h1>
+            
+            <p className="text-[17px] text-[#8892b0] leading-relaxed mb-8 max-w-[480px]">
+              Transform your store's credibility into a high-converting, professional testimonial experience in seconds.
+            </p>
+
+            <div className="flex items-center gap-4">
+              <a href="#install" className="bg-white text-black font-semibold text-sm px-6 py-3 rounded-lg hover:bg-slate-200 transition-colors shadow-lg shadow-white/10">
+                Install App
+              </a>
+              <a href="#templates" className="text-sm font-medium text-slate-300 hover:text-white px-4 py-3 transition-colors">
+                View Templates →
+              </a>
+            </div>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-[84px] font-extrabold text-white leading-[1.05] tracking-tight mb-6 drop-shadow-2xl">
-            Elevate Your Shopify <br/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#9b51e0] via-[#c646b1] to-[#e13a9d] animate-gradient-x">Social Proof</span>
-          </h1>
-          
-          <p className="text-lg md:text-xl text-slate-400/90 mt-4 max-w-2xl font-light leading-relaxed">
-            Transform your store's credibility into a high-converting, professional experience in seconds.
-          </p>
-        </div>
-
-        {/* 🔐 PREMIUM AUTH CARD */}
-        {showForm && (
-          <div className="w-full max-w-[420px] relative group">
-            {/* Ambient card glow */}
-            <div className="absolute -inset-0.5 bg-gradient-to-r from-[#9b51e0]/30 to-[#e13a9d]/30 rounded-2xl blur opacity-20 group-hover:opacity-40 transition duration-500"></div>
-            
-            <div className="bg-[#0a0a0a]/90 backdrop-blur-2xl border border-white/10 rounded-2xl p-8 shadow-2xl relative z-20 flex flex-col gap-8">
-              <div className="text-center">
-                <h2 className="text-xl font-semibold text-white mb-1">Welcome back</h2>
-                <p className="text-sm text-slate-500">Enter your domain to log in or install</p>
+          {/* RIGHT: Mockup */}
+          <div className="w-full lg:w-1/2 relative min-h-[400px] flex justify-center lg:justify-end items-center">
+            {/* Base Dashboard Mockup */}
+            <div className="w-full max-w-[500px] h-[320px] bg-[#111111] border border-white/10 rounded-xl shadow-2xl relative overflow-hidden flex flex-col">
+              {/* Header */}
+              <div className="h-10 border-b border-white/10 bg-[#161616] flex items-center px-4 gap-2">
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-600"></div>
               </div>
+              {/* Content area */}
+              <div className="flex-1 p-6 relative">
+                 <div className="w-1/3 h-4 bg-white/10 rounded mb-6"></div>
+                 <div className="grid grid-cols-2 gap-4">
+                   <div className="h-24 bg-white/5 rounded-lg border border-white/5"></div>
+                   <div className="h-24 bg-white/5 rounded-lg border border-white/5"></div>
+                 </div>
+              </div>
+            </div>
 
+            {/* Floating Review Card */}
+            <div className="absolute top-1/2 left-[-20px] lg:left-[-40px] transform -translate-y-1/2 w-[280px] bg-[#1a1a1a]/90 backdrop-blur-xl border border-white/10 rounded-xl p-5 shadow-[0_20px_40px_rgba(0,0,0,0.4)]">
+              <div className="flex gap-1 text-[#fbbf24] mb-3">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-3.5 h-3.5 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                ))}
+              </div>
+              <p className="text-slate-300 text-[13px] leading-relaxed mb-4">"Conversion rates skyrocketed since we added these widgets. Absolute game changer for our store."</p>
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-gradient-to-br from-[#a855f7] to-[#ec4899]"></div>
+                <div>
+                  <div className="text-white text-[13px] font-medium">Sarah Jenkins</div>
+                  <div className="text-slate-500 text-[11px]">Verified Buyer</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 🔐 3. Shopify Install Card */}
+        {showForm && (
+          <section id="install" className="w-full max-w-[1200px] mx-auto px-6 mb-32 flex justify-center">
+            <div className="w-full max-w-[440px] bg-[#0f0f0f] border border-white-[0.08] rounded-xl p-8 shadow-[0_8px_30px_rgba(0,0,0,0.4)]">
               <Form method="post" action="/auth/login" className="flex flex-col gap-5">
                 <div className="flex flex-col gap-2">
-                  <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider ml-1">
+                  <label className="text-[13px] font-medium text-slate-300">
                     Shopify Domain
                   </label>
-                  <div className="relative group/input">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-500 group-focus-within/input:text-[#e13a9d] transition-colors">
-                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
-                    </div>
-                    <input
-                      type="text"
-                      name="shop"
-                      value={shopUrl}
-                      onChange={(e) => setShopUrl(e.currentTarget.value)}
-                      placeholder="your-store.myshopify.com"
-                      className="w-full bg-[#111111]/80 border border-white/10 rounded-xl pl-11 pr-4 py-3.5 text-white placeholder-slate-600 focus:outline-none focus:border-[#e13a9d]/50 focus:ring-1 focus:ring-[#e13a9d]/50 focus:bg-[#151515] transition-all text-sm shadow-inner"
-                      required
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="shop"
+                    value={shopUrl}
+                    onChange={(e) => setShopUrl(e.currentTarget.value)}
+                    placeholder="my-store.myshopify.com"
+                    className="w-full bg-[#161616] border border-[#222] rounded-lg px-4 py-3 text-white placeholder-slate-600 focus:outline-none focus:border-[#a855f7] focus:ring-1 focus:ring-[#a855f7] transition-all text-sm shadow-inner"
+                    required
+                  />
                 </div>
 
-                <button type="submit" className="relative w-full overflow-hidden rounded-xl group/btn mt-2">
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#9b51e0] to-[#e13a9d] opacity-90 group-hover/btn:opacity-100 transition-opacity"></div>
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.2)_0%,rgba(255,255,255,0)_100%)]"></div>
-                  <div className="relative flex items-center justify-center gap-2 py-3.5 text-white font-bold text-sm shadow-[0_0_20px_rgba(225,58,157,0.3)] group-hover/btn:shadow-[0_0_30px_rgba(225,58,157,0.5)] transition-shadow">
-                    Install App
-                    <svg className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
-                  </div>
+                <button type="submit" className="w-full bg-gradient-to-r from-[#9333ea] to-[#db2777] hover:opacity-90 text-white font-medium text-[15px] py-3 rounded-lg shadow-lg shadow-purple-900/20 transition-all active:scale-[0.98]">
+                  Install App
                 </button>
               </Form>
             </div>
-          </div>
+          </section>
         )}
-      </main>
 
+        {/* ✨ 4. Feature Grid */}
+        <section id="features" className="w-full max-w-[1200px] mx-auto px-6 mb-32">
+          <div className="text-center mb-16">
+            <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Designed for Conversion</h2>
+            <p className="text-[#8892b0] text-[15px] max-w-xl mx-auto">Everything you need to build trust without writing a single line of code.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {[
+              { title: "High-Converting Templates", desc: "Professionally designed layouts that match your brand perfectly." },
+              { title: "Mobile Optimized", desc: "Flawless rendering on every device to capture mobile shoppers." },
+              { title: "Shopify Native Billing", desc: "Secure, one-click subscriptions integrated directly into your invoice." }
+            ].map((feat, i) => (
+              <div key={i} className="p-6 rounded-xl bg-[#111] border border-white/[0.05] hover:border-white/10 transition-colors">
+                <h3 className="text-lg font-semibold text-white mb-2">{feat.title}</h3>
+                <p className="text-[#8892b0] text-[14px] leading-relaxed">{feat.desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* 🎠 5. Template Showcase */}
+        <section id="templates" className="w-full max-w-[1200px] mx-auto px-6 mb-20">
+           <div className="text-center mb-16">
+             <h2 className="text-2xl md:text-3xl font-bold text-white mb-3">Premium Layouts</h2>
+             <p className="text-[#8892b0] text-[15px] max-w-xl mx-auto">Pick the style that fits your store.</p>
+           </div>
+
+           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {[
+                { name: "Starter Spark", tier: "FREE", color: "text-slate-400" },
+                { name: "Growth Boost", tier: "STARTER", color: "text-blue-400" },
+                { name: "Authority Plus", tier: "GROWTH", color: "text-[#a855f7]", badge: "Most Popular" },
+                { name: "Elite Suite", tier: "PREMIUM", color: "text-pink-400" }
+              ].map((tpl, i) => (
+                <div key={i} className="relative p-6 rounded-xl bg-[#111] border border-white/[0.05] hover:border-white/10 transition-colors cursor-pointer">
+                   {tpl.badge && (
+                     <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 bg-[#a855f7] text-white text-[11px] font-bold rounded-full uppercase tracking-wide shadow-lg">
+                       {tpl.badge}
+                     </div>
+                   )}
+                   <div className={`text-[11px] font-bold uppercase tracking-wider ${tpl.color} mb-2`}>{tpl.tier}</div>
+                   <h4 className="text-[17px] font-bold text-white mb-6">{tpl.name}</h4>
+                   
+                   {/* Skeleton Preview */}
+                   <div className="w-full h-[100px] rounded-lg bg-[#161616] border border-white/5 p-3 flex flex-col gap-2.5">
+                      <div className="flex gap-2">
+                        <div className="w-5 h-5 rounded-full bg-white/10"></div>
+                        <div className="flex-1 flex flex-col gap-1.5 justify-center">
+                          <div className="w-1/2 h-1 rounded-full bg-white/20"></div>
+                          <div className="w-1/3 h-1 rounded-full bg-white/10"></div>
+                        </div>
+                      </div>
+                      <div className="w-full h-1 rounded-full bg-white/10 mt-1"></div>
+                      <div className="w-4/5 h-1 rounded-full bg-white/10"></div>
+                   </div>
+                </div>
+              ))}
+           </div>
+        </section>
+
+      </main>
     </div>
   );
 }
