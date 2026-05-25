@@ -1,5 +1,10 @@
 import { Links, Meta, Outlet, Scripts, ScrollRestoration, useRouteError } from "react-router";
 import { boundary } from "@shopify/shopify-app-react-router/server";
+import tailwindStyles from "./tailwind.css?url";
+
+export const links = () => [
+  { rel: "stylesheet", href: tailwindStyles },
+];
 
 export default function App() {
   return (
