@@ -1,0 +1,7 @@
+api_version = "2026-07"
+uid = "1c805fd4-56ae-3fb7-cc5b-f165f1be0475d07c9530"
+
+[[extensions]]
+name = "TestiCraft Widget"
+handle = "testicraft-widget"
+type = "theme"

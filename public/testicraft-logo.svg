@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 48" fill="none" role="img" aria-label="TestiCraft">
+  <defs>
+    <linearGradient id="tc-icon-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="tc-text-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0f172a"/>
+      <stop offset="100%" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon: Stylized speech bubble with quote mark -->
+  <rect x="0" y="4" width="40" height="32" rx="8" fill="url(#tc-icon-grad)"/>
+  <!-- Quote mark left -->
+  <path d="M10 20 C10 16 13 14 15 14 L15 17 C13.5 17 13 18 13 19.5 L15 19.5 L15 24 L10 24 Z" fill="white" opacity="0.95"/>
+  <!-- Quote mark right -->
+  <path d="M18 20 C18 16 21 14 23 14 L23 17 C21.5 17 21 18 21 19.5 L23 19.5 L23 24 L18 24 Z" fill="white" opacity="0.95"/>
+  <!-- Tail of bubble -->
+  <path d="M8 36 L14 32 L20 32 L14 36 Z" fill="url(#tc-icon-grad)"/>
+  <!-- Sparkle top right -->
+  <circle cx="35" cy="8" r="2" fill="white" opacity="0.8"/>
+  <circle cx="39" cy="13" r="1.2" fill="white" opacity="0.6"/>
+  <circle cx="33" cy="13" r="1" fill="white" opacity="0.5"/>
+
+  <!-- Wordmark: TestiCraft -->
+  <!-- T -->
+  <text x="50" y="34" font-family="system-ui, -apple-system, 'Segoe UI', sans-serif" font-size="26" font-weight="700" letter-spacing="-0.5" fill="url(#tc-text-grad)">TestiCraft</text>
+</svg>

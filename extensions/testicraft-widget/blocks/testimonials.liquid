@@ -1,0 +1,29 @@
+<div class="testicraft-widget-root" data-shop="{{ shop.permanent_domain }}">
+  <div class="testicraft-loading-skeleton" style="padding: 40px; text-align: center; color: #6b7280; font-family: system-ui, sans-serif;">
+    <div style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">Loading testimonials...</div>
+    <div style="width: 40px; height: 40px; border: 3px solid #e5e7eb; border-top-color: #3b82f6; border-radius: 50%; display: inline-block; animation: spin 1s linear infinite;"></div>
+    <style>@keyframes spin { to { transform: rotate(360deg); } }</style>
+  </div>
+</div>
+
+<script>
+  window.TestiCraft = window.TestiCraft || {};
+  window.TestiCraft.shop = "{{ shop.permanent_domain }}";
+</script>
+
+<script src="{{ 'widget.js' | asset_url }}" defer></script>
+<link rel="stylesheet" href="{{ 'widget.css' | asset_url }}">
+
+{% schema %}
+{
+  "name": "TestiCraft Widget",
+  "target": "section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading_override",
+      "label": "Heading Override (Optional)"
+    }
+  ]
+}
+{% endschema %}

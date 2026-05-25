@@ -1,0 +1,66 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/prisma-client"
+}
+
+// Note that some adapters may set a maximum length for the String type by default, please ensure your strings are long
+// enough when changing adapters.
+// See https://www.prisma.io/docs/orm/reference/prisma-schema-reference#string for more information
+datasource db {
+  provider = "sqlite"
+  url      = "file:dev.sqlite"
+}
+
+model Session {
+  id            String    @id
+  shop          String
+  state         String
+  isOnline      Boolean   @default(false)
+  scope         String?
+  expires       DateTime?
+  accessToken   String
+  userId        BigInt?
+  firstName     String?
+  lastName      String?
+  email         String?
+  accountOwner  Boolean   @default(false)
+  locale        String?
+  collaborator  Boolean?  @default(false)
+  emailVerified Boolean?  @default(false)
+  refreshToken        String?
+  refreshTokenExpires DateTime?
+}
+
+model TestimonialWidget {
+  id                 String            @id @default(uuid())
+  shop               String            @unique
+  activeDesign       String            @default("design-1") // design-1 to design-7
+  heading            String            @default("What Our Customers Say")
+  subheading         String            @default("Hear directly from the people who love our products.")
+  fontFamily         String            @default("Inter")
+  textColor          String            @default("#1f2937")
+  accentColor        String            @default("#f59e0b") // star colors, accent, etc.
+  cardBgColor        String            @default("#ffffff")
+  sectionBgColor     String            @default("#f9fafb")
+  columns            Int               @default(3)
+  testimonials       TestimonialCard[]
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
+}
+
+model TestimonialCard {
+  id           String            @id @default(uuid())
+  widgetId     String
+  widget       TestimonialWidget @relation(fields: [widgetId], references: [id], onDelete: Cascade)
+  authorName   String            @default("Sarah Jenkins")
+  designation  String            @default("Founder, TechFlow")
+  rating       Int               @default(5)
+  quote        String            @default("This product has completely transformed our workflow. The setup was effortless, and the support has been stellar!")
+  avatarUrl    String            @default("https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150")
+  order        Int               @default(0)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
+}
