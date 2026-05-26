@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useFetcher, useLoaderData, Form } from "react-router";
-import { useAppBridge } from "@shopify/app-bridge-react";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal } from "@shopify/polaris";
 import { LockIcon, ViewIcon } from "@shopify/polaris-icons";
 import prisma from "../db.server";
@@ -70,7 +69,6 @@ export const action = async ({ request }) => {
 export default function Dashboard() {
   const { widget, activeTier } = useLoaderData();
   const fetcher = useFetcher();
-  const shopifyBridge = useAppBridge();
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewDesign, setPreviewDesign] = useState("design-1");
@@ -87,9 +85,9 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (fetcher.data?.success && fetcher.state === "idle" && fetcher.formMethod === "POST") {
-      shopifyBridge.toast.show(fetcher.data.message || "Saved successfully");
+      shopify.toast.show(fetcher.data.message || "Saved successfully");
     }
-  }, [fetcher.data, fetcher.state, fetcher.formMethod, shopifyBridge]);
+  }, [fetcher.data, fetcher.state, fetcher.formMethod]);
 
   const handleSaveDesign = (designId) => {
     const formData = new FormData();

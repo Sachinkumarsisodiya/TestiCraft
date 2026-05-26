@@ -95,7 +95,8 @@
   margin: 16px 0;
   flex-grow: 1;
   display: -webkit-box;
-  -webkit-line-clamp: 3; /* Strict layout preservation */
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* Strict layout preservation */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -150,6 +151,7 @@
   margin: 16px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -201,6 +203,7 @@
   margin: 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -220,6 +223,7 @@
   margin: 0 -20px;
   mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
   -webkit-mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 5%, black 95%, transparent);
 }
 .testicraft-d4-wrapper::-webkit-scrollbar { display: none; }
 .testicraft-d4-card {
@@ -247,6 +251,7 @@
   margin: 0 0 24px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -296,6 +301,7 @@
   margin: 0 0 20px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -316,7 +322,15 @@
   width: 100%;
 }
 @media (max-width: 1024px) { .testicraft-d6-masonry { column-count: 2; } }
-@media (max-width: 640px) { .testicraft-d6-masonry { column-count: 1; } }
+@media (max-width: 640px) { 
+  .testicraft-d6-masonry { column-count: 1; }
+  .testicraft-d6-card { padding: 16px; margin-bottom: 16px; min-height: auto; }
+  .testicraft-d6-quote { -webkit-line-clamp: 3; line-clamp: 3; font-size: 0.9rem; margin-bottom: 12px; }
+  .testicraft-d6-avatar { width: 36px; height: 36px; border-radius: 10px; }
+  .testicraft-d6-name { font-size: 0.9rem; }
+  .testicraft-d6-role { font-size: 0.75rem; }
+  .testicraft-d6-header { margin-bottom: 12px; }
+}
 
 .testicraft-d6-card {
   break-inside: avoid;
@@ -346,7 +360,8 @@
   color: #334155;
   margin: 0;
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Masonry permits slightly longer blocks */
+  -webkit-line-clamp: 3;
+  line-clamp: 3; /* Masonry permits slightly longer blocks */
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -411,6 +426,7 @@
   margin: 0 0 32px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -449,7 +465,9 @@
   border-radius: 24px; padding: 1px;
   background: linear-gradient(135deg, rgba(255,255,255,0.2), rgba(255,255,255,0));
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor; pointer-events: none;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude; pointer-events: none;
 }
 /* Grid hover flattens siblings */
 .testicraft-d8-grid:hover .testicraft-d8-card {
@@ -475,6 +493,7 @@
   margin: 0 0 32px 0;
   display: -webkit-box;
   -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

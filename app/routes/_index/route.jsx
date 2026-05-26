@@ -13,7 +13,7 @@ export const loader = async ({ request }) => {
 };
 
 const StarRating = ({ compact = false }) => (
-  <div className="flex items-center gap-1 text-[#f6c46a]">
+  <div className="flex items-center gap-1 text-[#facc15]">
     {Array.from({ length: 5 }).map((_, index) => (
       <svg
         key={index}
@@ -28,47 +28,43 @@ const StarRating = ({ compact = false }) => (
   </div>
 );
 
-const Icon = ({ children }) => (
-  <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/[0.045] text-[#d687ff] shadow-[0_16px_40px_rgba(127,76,255,0.12)]">
+const FeatureIcon = ({ children }) => (
+  <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-[#d980ff] shadow-[0_16px_40px_rgba(151,86,255,0.15)]">
     {children}
   </div>
 );
 
 const features = [
   {
-    title: "Review Widgets",
-    desc: "Show polished testimonials, ratings, and buyer stories in conversion-focused layouts.",
-    icon: (
-      <path d="M5 5h14v10H9l-4 4V5Zm4 4h6M9 12h4" />
-    ),
+    title: "Stunning Testimonial Templates",
+    desc: "Deploy premium, professionally crafted layouts that perfectly match your store's aesthetic.",
+    icon: <path d="M4 5h16M4 10h7M4 15h16M15 10h5" />,
   },
   {
-    title: "Template Control",
-    desc: "Launch compact grids, premium sliders, quote cards, and high-trust showcase sections.",
-    icon: (
-      <path d="M4 5h16M4 10h7M4 15h16M15 10h5" />
-    ),
+    title: "Mobile Optimized Widgets",
+    desc: "Every design is built mobile-first to ensure conversions on all devices and screen sizes.",
+    icon: <path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />,
   },
   {
-    title: "Shopify Native",
-    desc: "Install through Shopify, manage plans cleanly, and keep storefront performance light.",
-    icon: (
-      <path d="M8 8V6a4 4 0 0 1 8 0v2m-9 0h10l-1 11H8L7 8Z" />
-    ),
+    title: "Shopify Native Billing",
+    desc: "Seamlessly integrated directly into your Shopify dashboard with secure native billing.",
+    icon: <path d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />,
   },
-];
-
-const templates = [
-  { tier: "FREE", name: "Clean Trust", accent: "from-slate-300 to-white", layout: "list" },
-  { tier: "STARTER", name: "Social Strip", accent: "from-[#77d7ff] to-[#8d9cff]", layout: "strip" },
   {
-    tier: "GROWTH",
-    name: "Authority Wall",
-    accent: "from-[#a879ff] to-[#f15aa8]",
-    badge: "Most Popular",
-    layout: "grid",
+    title: "High Conversion Layouts",
+    desc: "Strategic trust placements designed specifically to reduce bounce rates and increase sales.",
+    icon: <path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />,
   },
-  { tier: "PREMIUM", name: "Luxury Carousel", accent: "from-[#f3c96b] to-[#f06cae]", layout: "carousel" },
+  {
+    title: "Lightning Fast Performance",
+    desc: "Zero layout shift and asynchronous loading to keep your storefront speed scores perfect.",
+    icon: <path d="M13 10V3L4 14h7v7l9-11h-7z" />,
+  },
+  {
+    title: "Premium SaaS Design",
+    desc: "Dark mode, glassmorphism, and cinematic depth standard on all of our premium templates.",
+    icon: <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z" />,
+  },
 ];
 
 export default function Index() {
@@ -76,34 +72,34 @@ export default function Index() {
   const [shopUrl, setShopUrl] = useState("");
 
   return (
-    <div className="min-h-screen overflow-x-hidden bg-[#05050c] font-sans text-white selection:bg-[#bd65ff]/25 selection:text-white">
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute left-[-180px] top-[-190px] h-[520px] w-[520px] rounded-full bg-[#6e3dff]/18 blur-[125px]" />
-        <div className="absolute right-[-220px] top-[250px] h-[500px] w-[500px] rounded-full bg-[#e34a9e]/10 blur-[140px]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.035)_0,transparent_34%),linear-gradient(180deg,rgba(7,7,18,0)_0%,#05050c_78%)]" />
+    <div className="min-h-screen overflow-x-hidden bg-[#05050c] font-sans text-white selection:bg-[#c55cf3]/30 selection:text-white">
+      {/* Dynamic Ambient Background Glows */}
+      <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden">
+        <div className="absolute -left-[10%] -top-[10%] h-[600px] w-[600px] rounded-full bg-[#8b5cf6]/10 blur-[150px]" />
+        <div className="absolute right-[10%] top-[30%] h-[500px] w-[500px] rounded-full bg-[#ec4899]/10 blur-[140px]" />
+        <div className="absolute bottom-[-10%] left-[30%] h-[700px] w-[700px] rounded-full bg-[#3b82f6]/10 blur-[160px]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(5,5,12,0)_0%,#05050c_80%)]" />
       </div>
 
-      <nav className="sticky top-0 z-50 border-b border-white/[0.06] bg-[#060611]/72 backdrop-blur-xl">
-        <div className="mx-auto flex h-16 max-w-[1230px] items-center justify-between px-5 sm:px-7">
+      <nav className="relative z-50 border-b border-white/[0.06] bg-[#05050c]/60 backdrop-blur-2xl">
+        <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 sm:px-8">
           <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
-            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#7f55ff] to-[#ef5b9e] shadow-[0_12px_35px_rgba(151,86,255,0.3)]">
-              <svg className="h-[18px] w-[18px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2">
-                <path d="M7 9h10M7 13h6" />
-                <path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
+            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#8d61ff] to-[#ec4899] shadow-[0_12px_35px_rgba(151,86,255,0.3)]">
+              <svg className="h-[20px] w-[20px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
               </svg>
             </span>
-            <span className="text-[19px] font-bold tracking-[-0.02em] text-white">TestiCraft</span>
+            <span className="text-[22px] font-extrabold tracking-[-0.03em] text-white">TestiCraft</span>
           </a>
 
-          <div className="hidden items-center gap-8 text-[13px] font-medium text-slate-400 md:flex">
-            <a className="transition hover:text-white" href="#features">Features</a>
-            <a className="transition hover:text-white" href="#install">Install</a>
-            <a className="transition hover:text-white" href="#templates">Templates</a>
+          <div className="hidden items-center gap-8 text-[14px] font-semibold text-slate-300 md:flex">
+            <a className="transition-colors hover:text-white" href="#features">Features</a>
+            <a className="transition-colors hover:text-white" href="#install">Install</a>
           </div>
 
           <a
             href="#install"
-            className="hidden rounded-lg border border-white/10 bg-white/[0.055] px-4 py-2 text-[13px] font-semibold text-white shadow-[0_12px_35px_rgba(0,0,0,0.18)] transition hover:border-white/18 hover:bg-white/[0.085] sm:inline-flex"
+            className="hidden rounded-lg border border-white/10 bg-white/[0.05] px-5 py-2.5 text-[14px] font-bold text-white shadow-[0_12px_35px_rgba(0,0,0,0.2)] transition-all hover:-translate-y-0.5 hover:bg-white/[0.08] sm:inline-flex"
           >
             Get Started
           </a>
@@ -111,209 +107,148 @@ export default function Index() {
       </nav>
 
       <main className="relative z-10">
-        <section className="mx-auto grid min-h-[640px] w-full max-w-[1230px] items-center gap-11 px-5 pb-16 pt-16 sm:px-7 sm:pt-20 lg:grid-cols-[0.92fr_1.08fr] lg:gap-9 lg:pb-20">
-          <div className="mx-auto max-w-[590px] text-center lg:mx-0 lg:text-left">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/[0.09] bg-white/[0.045] px-3.5 py-2 text-[12px] font-semibold text-slate-300 shadow-[0_16px_50px_rgba(0,0,0,0.22)]">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#80ffaa] shadow-[0_0_18px_rgba(128,255,170,0.8)]" />
-              Shopify testimonial widgets
+        <section className="mx-auto flex min-h-[750px] w-full max-w-[1280px] flex-col items-center justify-center px-6 py-20 lg:flex-row lg:justify-between lg:py-0">
+          <div className="mb-16 max-w-[620px] text-center lg:mb-0 lg:text-left">
+            <div className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/[0.1] bg-white/[0.03] px-4 py-2 text-[12px] font-bold uppercase tracking-[0.1em] text-[#d980ff] shadow-[0_16px_50px_rgba(0,0,0,0.2)]">
+              <span className="h-1.5 w-1.5 rounded-full bg-[#facc15] shadow-[0_0_15px_rgba(250,204,21,0.8)]" />
+              Shopify Review Widgets
             </div>
 
-            <h1 className="text-[clamp(2.35rem,7vw,4.65rem)] font-extrabold leading-[0.98] tracking-[-0.045em] text-white">
-              Elevate Your Shopify
-              <span className="block bg-gradient-to-r from-[#8d61ff] via-[#c55cf3] to-[#ef579e] bg-clip-text pt-2 text-transparent">
-                Social Proof
+            <h1 className="text-[clamp(2.8rem,6vw,5.5rem)] font-black leading-[1.05] tracking-[-0.04em] text-white">
+              Turn Customer <br />
+              <span className="bg-gradient-to-r from-[#8b5cf6] via-[#d946ef] to-[#ec4899] bg-clip-text text-transparent">
+                Reviews Into Sales
               </span>
             </h1>
 
-            <p className="mx-auto mt-6 max-w-[540px] text-[clamp(1rem,2.4vw,1.18rem)] leading-8 text-[#9da7bd] lg:mx-0">
-              Turn customer reviews into polished, high-converting testimonial sections that feel native to premium Shopify stores.
+            <p className="mx-auto mt-8 max-w-[540px] text-[clamp(1.1rem,2vw,1.3rem)] leading-relaxed text-[#94a3b8] lg:mx-0">
+              Create beautiful, high-converting testimonial widgets for your Shopify store in minutes. Boost trust and drive conversions with premium social proof.
             </p>
 
-            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row lg:justify-start">
+            <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row lg:justify-start">
               <a
                 href="#install"
-                className="inline-flex h-12 w-full items-center justify-center rounded-lg bg-white px-6 text-[14px] font-bold text-[#090912] shadow-[0_18px_55px_rgba(255,255,255,0.14)] transition hover:-translate-y-0.5 hover:bg-[#f3f4ff] sm:w-auto"
+                className="inline-flex h-14 w-full items-center justify-center rounded-xl bg-gradient-to-r from-[#8b5cf6] to-[#ec4899] px-8 text-[15px] font-bold text-white shadow-[0_20px_60px_rgba(217,70,239,0.3)] transition-all hover:-translate-y-1 hover:shadow-[0_25px_70px_rgba(217,70,239,0.4)] sm:w-auto"
               >
                 Install TestiCraft
               </a>
               <a
-                href="#templates"
-                className="inline-flex h-12 w-full items-center justify-center rounded-lg border border-white/10 bg-white/[0.045] px-6 text-[14px] font-semibold text-slate-200 transition hover:-translate-y-0.5 hover:border-white/18 hover:bg-white/[0.075] sm:w-auto"
+                href="#features"
+                className="inline-flex h-14 w-full items-center justify-center rounded-xl border border-white/10 bg-white/[0.03] px-8 text-[15px] font-bold text-white backdrop-blur-md transition-all hover:-translate-y-1 hover:bg-white/[0.08] sm:w-auto"
               >
-                View Templates
+                Explore Features
               </a>
             </div>
           </div>
 
-          <div className="relative mx-auto flex min-h-[430px] w-full max-w-[580px] items-center justify-center lg:min-h-[500px]">
-            <div className="absolute inset-x-10 top-12 h-72 rounded-full bg-gradient-to-r from-[#7d5cff]/18 to-[#ec5a9d]/16 blur-3xl" />
-
-            <div className="relative w-full rounded-2xl border border-white/[0.095] bg-[#0c0d18]/82 p-3 shadow-[0_32px_90px_rgba(0,0,0,0.46)] backdrop-blur-xl">
-              <div className="overflow-hidden rounded-xl border border-white/[0.07] bg-[#080913]">
-                <div className="flex h-11 items-center justify-between border-b border-white/[0.07] bg-white/[0.035] px-4">
-                  <div className="flex items-center gap-2">
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#ff6b82]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#ffc85e]" />
-                    <span className="h-2.5 w-2.5 rounded-full bg-[#63df91]" />
-                  </div>
-                  <div className="h-2 w-28 rounded-full bg-white/10" />
+          <div className="relative w-full max-w-[560px]">
+            <div className="absolute inset-0 rounded-[2rem] bg-gradient-to-tr from-[#8b5cf6]/20 to-[#ec4899]/20 blur-3xl" />
+            <div className="relative flex flex-col gap-5 rounded-[2rem] border border-white/10 bg-[#0d0f1a]/80 p-6 shadow-[0_40px_100px_rgba(0,0,0,0.5)] backdrop-blur-2xl sm:p-8">
+              
+              <div className="flex flex-col gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="flex items-center justify-between">
+                  <StarRating />
+                  <span className="rounded-full bg-emerald-500/10 px-3 py-1 text-[11px] font-bold tracking-wider text-emerald-400">VERIFIED</span>
                 </div>
-
-                <div className="grid gap-4 p-5 sm:grid-cols-[0.9fr_1.1fr]">
-                  <div className="rounded-xl border border-white/[0.07] bg-white/[0.04] p-4">
-                    <p className="text-[12px] font-semibold text-slate-400">Reviews collected</p>
-                    <div className="mt-4 flex items-end gap-2">
-                      <span className="text-4xl font-extrabold tracking-[-0.04em]">2,486</span>
-                      <span className="pb-1 text-[12px] font-bold text-[#83f3aa]">+28%</span>
-                    </div>
-                    <div className="mt-5 flex h-24 items-end gap-2">
-                      {[42, 58, 36, 76, 64, 92, 82].map((height, index) => (
-                        <span
-                          key={index}
-                          className="flex-1 rounded-t-md bg-gradient-to-t from-[#8a61ff]/45 to-[#f05aa0]/80"
-                          style={{ height: `${height}%` }}
-                        />
-                      ))}
-                    </div>
+                <p className="text-[15px] leading-relaxed text-slate-300">
+                  "Since installing TestiCraft, our conversion rate jumped by 24%. The templates blend perfectly with our premium store aesthetic."
+                </p>
+                <div className="flex items-center gap-4 pt-2">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 p-[2px]">
+                    <div className="h-full w-full rounded-full border border-black bg-[#1e293b]" />
                   </div>
-
-                  <div className="space-y-3">
-                    {[
-                      ["Maya A.", "The reviews look custom-built for our theme.", "Verified buyer"],
-                      ["Daniel K.", "Setup took minutes and the carousel is beautiful.", "Repeat customer"],
-                    ].map(([name, text, tag]) => (
-                      <div key={name} className="rounded-xl border border-white/[0.075] bg-[#111321]/80 p-4 shadow-[0_18px_50px_rgba(0,0,0,0.22)]">
-                        <div className="mb-3 flex items-center justify-between gap-3">
-                          <StarRating compact />
-                          <span className="rounded-full bg-[#1c2a22] px-2 py-1 text-[10px] font-bold uppercase tracking-[0.08em] text-[#8ff0b0]">{tag}</span>
-                        </div>
-                        <p className="text-[13px] leading-5 text-slate-300">"{text}"</p>
-                        <p className="mt-3 text-[13px] font-semibold text-white">{name}</p>
-                      </div>
-                    ))}
+                  <div>
+                    <p className="text-[14px] font-bold text-white">Sarah M.</p>
+                    <p className="text-[12px] text-slate-500">Store Owner</p>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <div className="absolute -left-1 bottom-8 w-[245px] rounded-2xl border border-white/[0.11] bg-[#111322]/88 p-4 shadow-[0_22px_65px_rgba(0,0,0,0.45)] backdrop-blur-xl sm:-left-6 sm:bottom-10">
-              <StarRating />
-              <p className="mt-3 text-[13px] leading-6 text-slate-300">"Our store finally has social proof that looks as premium as the products."</p>
-              <div className="mt-4 flex items-center gap-3">
-                <div className="h-9 w-9 rounded-full bg-gradient-to-br from-[#8b68ff] to-[#f05b9f]" />
-                <div>
-                  <p className="text-[13px] font-bold text-white">Sarah Jenkins</p>
-                  <p className="text-[11px] text-slate-500">Store owner</p>
+              <div className="flex flex-col gap-4 rounded-2xl border border-white/5 bg-white/[0.02] p-5">
+                <div className="flex items-center justify-between">
+                  <StarRating />
+                  <span className="rounded-full bg-blue-500/10 px-3 py-1 text-[11px] font-bold tracking-wider text-blue-400">TRUSTED</span>
+                </div>
+                <p className="text-[15px] leading-relaxed text-slate-300">
+                  "The Floating Trust Wall is incredible. Customers can read reviews directly from the product page without scrolling down."
+                </p>
+                <div className="flex items-center gap-4 pt-2">
+                  <div className="h-10 w-10 rounded-full bg-gradient-to-br from-blue-500 to-emerald-500 p-[2px]">
+                    <div className="h-full w-full rounded-full border border-black bg-[#1e293b]" />
+                  </div>
+                  <div>
+                    <p className="text-[14px] font-bold text-white">James T.</p>
+                    <p className="text-[12px] text-slate-500">Marketing Director</p>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="absolute -right-1 top-9 rounded-xl border border-white/[0.09] bg-[#101223]/90 px-4 py-3 shadow-[0_20px_55px_rgba(0,0,0,0.36)] backdrop-blur-xl sm:right-0">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-slate-500">Trust lift</p>
-              <p className="mt-1 text-2xl font-extrabold tracking-[-0.04em] text-white">31%</p>
+              <div className="absolute -right-6 top-10 rounded-2xl border border-white/10 bg-[#0a0a14]/90 p-4 shadow-[0_30px_60px_rgba(0,0,0,0.5)] backdrop-blur-xl">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-slate-400">Conversion Lift</p>
+                <p className="mt-1 bg-gradient-to-r from-emerald-400 to-emerald-200 bg-clip-text text-3xl font-black text-transparent">+24%</p>
+              </div>
+
             </div>
           </div>
         </section>
 
         {showForm && (
-          <section id="install" className="mx-auto w-full max-w-[1230px] px-5 py-10 sm:px-7">
-            <div className="mx-auto max-w-[540px] rounded-2xl border border-white/[0.1] bg-[#0d0e18]/86 p-5 shadow-[0_26px_85px_rgba(0,0,0,0.42),0_0_75px_rgba(141,97,255,0.11)] backdrop-blur-xl sm:p-7">
-              <Form method="post" action="/auth/login" className="space-y-4">
-                <label className="block text-[13px] font-bold text-slate-300" htmlFor="shop">
-                  Shopify Domain
-                </label>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <input
-                    id="shop"
-                    type="text"
-                    name="shop"
-                    value={shopUrl}
-                    onChange={(event) => setShopUrl(event.currentTarget.value)}
-                    placeholder="my-store.myshopify.com"
-                    className="h-12 min-w-0 flex-1 rounded-lg border border-white/[0.09] bg-[#111426] px-4 text-[15px] text-white outline-none transition placeholder:text-slate-600 focus:border-[#a879ff]/80 focus:ring-4 focus:ring-[#a879ff]/10"
-                    required
-                  />
+          <section id="install" className="relative mx-auto w-full max-w-[1280px] px-6 py-24 sm:px-8">
+            <div className="absolute inset-0 top-1/2 -z-10 h-64 -translate-y-1/2 bg-[#8b5cf6]/5 blur-[120px]" />
+            <div className="mx-auto max-w-[600px] overflow-hidden rounded-[2.5rem] border border-white/[0.08] bg-gradient-to-b from-[#0d0f1a]/90 to-[#07080e]/90 shadow-[0_40px_100px_rgba(0,0,0,0.4),0_0_80px_rgba(139,92,246,0.1)] backdrop-blur-2xl">
+              <div className="border-b border-white/[0.05] p-8 sm:p-10">
+                <h2 className="mb-2 text-center text-2xl font-bold text-white">Connect Your Store</h2>
+                <p className="text-center text-[15px] text-slate-400">Enter your Shopify domain to install TestiCraft</p>
+              </div>
+              <div className="p-8 sm:p-10">
+                <Form method="post" action="/auth/login" className="flex flex-col gap-5">
+                  <div className="group relative">
+                    <div className="absolute -inset-0.5 rounded-xl bg-gradient-to-r from-[#8b5cf6] to-[#ec4899] opacity-20 blur transition duration-500 group-hover:opacity-40" />
+                    <input
+                      id="shop"
+                      type="text"
+                      name="shop"
+                      value={shopUrl}
+                      onChange={(event) => setShopUrl(event.currentTarget.value)}
+                      placeholder="your-store.myshopify.com"
+                      className="relative h-14 w-full rounded-xl border border-white/[0.08] bg-[#05050c] px-5 text-[16px] text-white outline-none transition placeholder:text-slate-600 focus:border-[#d946ef] focus:ring-1 focus:ring-[#d946ef]"
+                      required
+                    />
+                  </div>
                   <button
                     type="submit"
-                    className="h-12 rounded-lg bg-gradient-to-r from-[#875dff] to-[#ed579d] px-6 text-[14px] font-bold text-white shadow-[0_18px_45px_rgba(179,88,224,0.24)] transition hover:-translate-y-0.5 hover:shadow-[0_22px_56px_rgba(179,88,224,0.32)] active:translate-y-0"
+                    className="relative h-14 w-full rounded-xl bg-white text-[16px] font-bold text-black transition hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(255,255,255,0.15)] active:translate-y-0"
                   >
-                    Install App
+                    Install TestiCraft
                   </button>
-                </div>
-              </Form>
+                </Form>
+              </div>
             </div>
           </section>
         )}
 
-        <section id="features" className="mx-auto w-full max-w-[1230px] px-5 py-16 sm:px-7 sm:py-20">
-          <div className="mx-auto mb-10 max-w-[620px] text-center">
-            <h2 className="text-[clamp(1.8rem,4vw,2.75rem)] font-extrabold tracking-[-0.035em] text-white">Built for believable trust</h2>
-            <p className="mt-4 text-[15px] leading-7 text-[#9da7bd]">Clean testimonial experiences that support purchase confidence without overpowering your storefront.</p>
+        <section id="features" className="mx-auto w-full max-w-[1280px] px-6 py-24 sm:px-8">
+          <div className="mb-16 text-center">
+            <h2 className="text-[clamp(2rem,4vw,3.5rem)] font-black tracking-[-0.03em] text-white">Built for Elite Merchants</h2>
+            <p className="mx-auto mt-5 max-w-[600px] text-[16px] leading-relaxed text-slate-400">
+              Everything you need to showcase social proof beautifully without compromising your store's aesthetic or load speed.
+            </p>
           </div>
 
-          <div className="grid gap-4 md:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {features.map((feature) => (
               <article
                 key={feature.title}
-                className="group rounded-2xl border border-white/[0.075] bg-white/[0.035] p-6 shadow-[0_20px_70px_rgba(0,0,0,0.16)] transition duration-300 hover:-translate-y-1 hover:border-white/[0.14] hover:bg-white/[0.055]"
+                className="group relative overflow-hidden rounded-[2rem] border border-white/[0.05] bg-[#0a0a14]/50 p-8 transition duration-500 hover:-translate-y-2 hover:border-white/[0.1] hover:bg-[#0d0f1a]"
               >
-                <Icon>
-                  <svg className="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.9" strokeLinecap="round" strokeLinejoin="round">
+                <div className="absolute inset-0 bg-gradient-to-br from-[#8b5cf6]/5 to-[#ec4899]/5 opacity-0 transition duration-500 group-hover:opacity-100" />
+                <FeatureIcon>
+                  <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                     {feature.icon}
                   </svg>
-                </Icon>
-                <h3 className="text-[18px] font-bold tracking-[-0.015em] text-white">{feature.title}</h3>
-                <p className="mt-3 text-[14px] leading-6 text-slate-400">{feature.desc}</p>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="templates" className="mx-auto w-full max-w-[1230px] px-5 pb-24 pt-10 sm:px-7">
-          <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <h2 className="text-[clamp(1.8rem,4vw,2.65rem)] font-extrabold tracking-[-0.035em] text-white">Template showcase</h2>
-              <p className="mt-3 max-w-[560px] text-[15px] leading-7 text-[#9da7bd]">Choose testimonial layouts that scale from a first review block to a premium proof engine.</p>
-            </div>
-            <div className="rounded-full border border-white/[0.08] bg-white/[0.04] px-4 py-2 text-[12px] font-bold uppercase tracking-[0.12em] text-slate-400">
-              Free to Premium
-            </div>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {templates.map((template) => (
-              <article
-                key={template.name}
-                className="group relative overflow-hidden rounded-2xl border border-white/[0.075] bg-[#0d0f1a] p-4 shadow-[0_24px_80px_rgba(0,0,0,0.23)] transition duration-300 hover:-translate-y-1.5 hover:border-white/[0.15]"
-              >
-                {template.badge && (
-                  <div className="absolute right-4 top-4 rounded-full bg-white px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-[0.08em] text-[#15101d]">
-                    {template.badge}
-                  </div>
-                )}
-                <div className={`mb-3 inline-flex bg-gradient-to-r ${template.accent} bg-clip-text text-[11px] font-extrabold uppercase tracking-[0.15em] text-transparent`}>
-                  {template.tier}
-                </div>
-                <h3 className="text-[17px] font-bold tracking-[-0.015em] text-white">{template.name}</h3>
-
-                <div className="mt-5 rounded-xl border border-white/[0.07] bg-[#090b14] p-3">
-                  <div className="mb-3 flex items-center justify-between">
-                    <StarRating compact />
-                    <span className="h-2 w-10 rounded-full bg-white/10" />
-                  </div>
-                  <div className={template.layout === "grid" ? "grid grid-cols-2 gap-2" : "space-y-2"}>
-                    {Array.from({ length: template.layout === "strip" ? 3 : 2 }).map((_, index) => (
-                      <div key={index} className="rounded-lg border border-white/[0.055] bg-white/[0.045] p-3">
-                        <div className="mb-2 flex items-center gap-2">
-                          <span className={`h-6 w-6 rounded-full bg-gradient-to-br ${template.accent}`} />
-                          <span className="h-2 w-14 rounded-full bg-white/[0.18]" />
-                        </div>
-                        <span className="block h-1.5 w-full rounded-full bg-white/10" />
-                        <span className="mt-1.5 block h-1.5 w-4/5 rounded-full bg-white/10" />
-                      </div>
-                    ))}
-                  </div>
-                </div>
+                </FeatureIcon>
+                <h3 className="relative z-10 text-[20px] font-bold tracking-tight text-white">{feature.title}</h3>
+                <p className="relative z-10 mt-4 text-[15px] leading-relaxed text-slate-400">{feature.desc}</p>
               </article>
             ))}
           </div>
