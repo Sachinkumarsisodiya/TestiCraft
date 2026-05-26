@@ -222,7 +222,11 @@ export default function Dashboard() {
           </svg>
         );
       }
-      return stars;
+      return (
+        <div style={{ display: "flex", flexDirection: "row", alignItems: "center", gap: "2px", flexWrap: "nowrap" }}>
+          {stars}
+        </div>
+      );
     };
 
     let gridContent;
@@ -510,13 +514,13 @@ export default function Dashboard() {
                                   <div style={{ flex: 1 }}>
                                     {locked ? (
                                       <Form method="POST" action="/api/billing">
-                                        <input type="hidden" name="plan" value={upgrade?.plan} />
+                                        <input type="hidden" name="plan" value={plan.billingId} />
                                         <button type="submit" style={{ width: "100%", height: "100%", padding: "8px 14px", background: plan.color, color: "#fff", border: "none", borderRadius: "8px", fontSize: "0.82rem", fontWeight: "700", cursor: "pointer", minWidth: "110px", transition: "transform 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", lineHeight: 1.3 }}
                                           onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.97)"}
                                           onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
                                         >
                                           <span style={{ width: "13px", height: "13px", display: "block", flexShrink: 0 }}><Icon source={LockIcon} tone="inherit" /></span>
-                                          {upgrade?.label || `Unlock ${plan.badge}`}
+                                          {`Upgrade to ${plan.badge.charAt(0) + plan.badge.slice(1).toLowerCase()}`}
                                         </button>
                                       </Form>
                                     ) : active ? (
