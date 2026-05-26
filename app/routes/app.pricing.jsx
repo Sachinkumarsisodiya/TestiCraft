@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLoaderData, Form } from "react-router";
+import { useLoaderData, Form, useRouteError } from "react-router";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Modal } from "@shopify/polaris";
 import shopify from "../shopify.server";
 import { TestiCraftLogo } from "../components/TestiCraftLogo";
@@ -53,14 +53,15 @@ const PRICING_PLANS = [
 ];
 
 export default function Pricing() {
-  const { activeTier } = useLoaderData();
+  const { activeTier } = useLoaderData() || {};
   const [checkoutPlan, setCheckoutPlan] = useState(null);
 
   const openCheckout = (planKey) => setCheckoutPlan(planKey);
   const closeCheckout = () => setCheckoutPlan(null);
 
-  const upgrade = getUpgradeTarget(activeTier);
-  const activePlanMeta = PLANS[activeTier] || PLANS["Free"];
+  const safeTier = activeTier || "Free";
+  const upgrade = getUpgradeTarget(safeTier);
+  const activePlanMeta = PLANS[safeTier] || PLANS["Free"];
 
   // Theme preview mock
   const renderThemePreview = (planMeta, isFree) => (
@@ -378,6 +379,22 @@ export default function Pricing() {
         </Modal.Section>
       </Modal>
 
+    </Page>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <Page>
+      <div style={{ padding: "20px", background: "#fee2e2", border: "1px solid #ef4444", borderRadius: "8px", color: "#7f1d1d" }}>
+        <h2 style={{ fontSize: "1.2rem", fontWeight: "bold", marginBottom: "10px" }}>⚠️ Pricing Render Crash</h2>
+        <p style={{ marginBottom: "10px" }}>The component encountered a runtime error. This does not affect your data.</p>
+        <pre style={{ background: "#f87171", color: "#fff", padding: "10px", borderRadius: "4px", overflowX: "auto" }}>
+          {error?.message || "Unknown Error"}
+          {"\n"}{error?.stack}
+        </pre>
+      </div>
     </Page>
   );
 }

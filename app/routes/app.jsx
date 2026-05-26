@@ -16,7 +16,7 @@ export const loader = async ({ request }) => {
 };
 
 export default function App() {
-  const { apiKey } = useLoaderData();
+  const { apiKey } = useLoaderData() || {};
 
   return (
     <PolarisAppProvider i18n={polarisTranslations}>

@@ -2,7 +2,7 @@
 
 client_id = "f75b2bce0eaeca4823641df692dccc73"
 name = "TestiCraft"
-application_url = "https://example.com"
+application_url = "https://testi-craft.vercel.app"
 embedded = true
 
 [build]
@@ -22,10 +22,12 @@ api_version = "2026-07"
 
 [access_scopes]
 # Learn more at https://shopify.dev/docs/apps/tools/cli/configuration#access_scopes
-scopes = "write_products,write_metaobjects,write_metaobject_definitions"
+scopes = "write_metaobject_definitions,write_metaobjects,write_products"
+optional_scopes = [ ]
+use_legacy_install_flow = false
 
 [auth]
-redirect_urls = [ "https://example.com/api/auth" ]
+redirect_urls = [ "https://testi-craft.vercel.app/auth/callback" ]
 
 [app_proxy]
 url = "https://example.com/api/widget"

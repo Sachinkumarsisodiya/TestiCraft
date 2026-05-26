@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetcher, useLoaderData, Form } from "react-router";
+import { useFetcher, useLoaderData, Form, useRouteError } from "react-router";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal } from "@shopify/polaris";
 import { LockIcon, ViewIcon } from "@shopify/polaris-icons";
 import prisma from "../db.server";
@@ -67,7 +67,7 @@ export const action = async ({ request }) => {
 };
 
 export default function Dashboard() {
-  const { widget, activeTier } = useLoaderData();
+  const { widget, activeTier } = useLoaderData() || {};
   const fetcher = useFetcher();
 
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -97,8 +97,9 @@ export default function Dashboard() {
   };
 
   // Use centralized helper from constants/plans.js
-  const upgrade = getUpgradeTarget(activeTier);
-  const activePlan = PLANS[activeTier] || PLANS["Free"];
+  const safeTier = activeTier || "Free";
+  const upgrade = getUpgradeTarget(safeTier);
+  const activePlan = PLANS[safeTier] || PLANS["Free"];
 
   const isSaving = fetcher.state !== "idle";
 
@@ -204,7 +205,7 @@ export default function Dashboard() {
       { id: "m6", authorName: "Marcus Thorne", designation: "Verified Buyer", rating: 5, quote: "Five stars! The setup was instant and it completely transformed the look and feel of my landing pages.", avatarUrl: AVATAR_PRESETS[5] }
     ];
 
-    const previewItems = items.length >= 3 ? items : (items.length > 0 ? [...items, ...MOCK_ITEMS.slice(items.length)] : MOCK_ITEMS);
+    const previewItems = items?.length >= 3 ? items : ((items?.length || 0) > 0 ? [...items, ...MOCK_ITEMS.slice(items.length)] : MOCK_ITEMS);
 
     const quoteIcon = (
       <svg className="testicraft-quote-icon" width="64" height="64" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
@@ -438,9 +439,9 @@ export default function Dashboard() {
           </div>
 
           <Grid>
-            {TEMPLATE_CATEGORIES.map((cat) => {
-              const plan = cat.plan;
-              const isMostPopular = plan.isMostPopular;
+            {TEMPLATE_CATEGORIES?.map((cat) => {
+              const plan = cat?.plan || {};
+              const isMostPopular = plan?.isMostPopular;
 
               return (
                 <Grid.Cell key={cat.id} columnSpan={{ xs: 6, sm: 6, md: 6, lg: 6 }}>
@@ -693,6 +694,22 @@ export default function Dashboard() {
         </Modal.Section>
       </Modal>
 
+    </Page>
+  );
+}
+
+export function ErrorBoundary() {
+  const error = useRouteError();
+  return (
+    <Page>
+      <div style={{ padding: "20px", background: "#fee2e2", border: "1px solid #ef4444", borderRadius: "8px", color: "#7f1d1d" }}>
+        <h2 style={{ fontSize: "1.2rem", fontWeight: "bold", marginBottom: "10px" }}>⚠️ Dashboard Render Crash</h2>
+        <p style={{ marginBottom: "10px" }}>The component encountered a runtime error. This does not affect your data.</p>
+        <pre style={{ background: "#f87171", color: "#fff", padding: "10px", borderRadius: "4px", overflowX: "auto" }}>
+          {error?.message || "Unknown Error"}
+          {"\n"}{error?.stack}
+        </pre>
+      </div>
     </Page>
   );
 }
