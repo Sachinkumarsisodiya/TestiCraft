@@ -3,7 +3,7 @@ import { useFetcher, useLoaderData, Form } from "react-router";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal } from "@shopify/polaris";
 import { LockIcon, ViewIcon } from "@shopify/polaris-icons";
 import prisma from "../db.server";
-import shopify from "../shopify.server";
+import { authenticate } from "../shopify.server";
 import widgetStyles from "../styles/widget.css?url";
 import { TestiCraftLogo } from "../components/TestiCraftLogo";
 import { PLANS, TEMPLATE_CATEGORIES, getUpgradeTarget, isTemplateLocked } from "../constants/plans";
@@ -22,7 +22,7 @@ const AVATAR_PRESETS = [
 ];
 
 export const loader = async ({ request }) => {
-  const { session, billing } = await shopify.authenticate.admin(request);
+  const { session, billing } = await authenticate.admin(request);
   const shop = session.shop;
 
   let activeTier = "Free";
@@ -47,7 +47,7 @@ export const loader = async ({ request }) => {
 };
 
 export const action = async ({ request }) => {
-  const { session } = await shopify.authenticate.admin(request);
+  const { session } = await authenticate.admin(request);
   const formData = await request.formData();
   const intent = formData.get("intent");
 
@@ -85,7 +85,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     if (fetcher.data?.success && fetcher.state === "idle" && fetcher.formMethod === "POST") {
-      shopify.toast.show(fetcher.data.message || "Saved successfully");
+      window.shopify.toast.show(fetcher.data.message || "Saved successfully");
     }
   }, [fetcher.data, fetcher.state, fetcher.formMethod]);
 
