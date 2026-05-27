@@ -320,7 +320,7 @@ export default function Dashboard() {
                   <img className="testicraft-d4-avatar" src={item.avatarUrl} alt="" loading="lazy" />
                   <div>
                     <h4 className="testicraft-d4-name">{item.authorName}</h4>
-                    <span className="testicraft-d1-role">{item.designation}</span>
+                    <span className="testicraft-d4-role">{item.designation}</span>
                   </div>
                 </div>
               </div>
