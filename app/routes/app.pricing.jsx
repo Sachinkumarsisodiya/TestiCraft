@@ -6,9 +6,13 @@ import { TestiCraftLogo } from "../components/TestiCraftLogo";
 import { PLANS, PLAN_ORDER, getUpgradeTarget } from "../constants/plans";
 
 export const loader = async ({ request }) => {
-  const { billing } = await shopify.authenticate.admin(request);
+  const { billing, session } = await shopify.authenticate.admin(request);
   const url = new URL(request.url);
   const charge_id = url.searchParams.get("charge_id");
+  const host = url.searchParams.get("host");
+  const embedded = url.searchParams.get("embedded");
+  const shop = session?.shop || url.searchParams.get("shop");
+  const apiKey = process.env.SHOPIFY_API_KEY || "";
 
   let activeTier = "Free";
   try {
@@ -26,7 +30,7 @@ export const loader = async ({ request }) => {
     activeTier = "Free";
   }
 
-  return { activeTier, charge_id };
+  return { activeTier, charge_id, host, embedded, shop, apiKey };
 };
 
 // Pricing page plan definitions (display order)
@@ -58,7 +62,7 @@ const PRICING_PLANS = [
 ];
 
 export default function Pricing() {
-  const { activeTier, charge_id } = useLoaderData() || {};
+  const { activeTier, charge_id, host, embedded, shop, apiKey } = useLoaderData() || {};
   const [checkoutPlan, setCheckoutPlan] = useState(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(!!charge_id);
 
@@ -66,6 +70,17 @@ export default function Pricing() {
   const closeCheckout = () => setCheckoutPlan(null);
 
   const billingFetcher = useFetcher();
+
+  useEffect(() => {
+    // Detect post-billing return in top-level standalone mode
+    if (charge_id && embedded === "1" && window.top === window.self) {
+      console.log("Detecting standalone post-billing return. Forcing admin remount...");
+      const cleanShop = shop?.replace(".myshopify.com", "");
+      if (cleanShop && apiKey) {
+        window.location.href = `https://admin.shopify.com/store/${cleanShop}/apps/${apiKey}/app/pricing?charge_id=${charge_id}&host=${host || ""}`;
+      }
+    }
+  }, [charge_id, embedded, shop, apiKey, host]);
 
   useEffect(() => {
     if (billingFetcher.data) {
@@ -287,7 +302,7 @@ export default function Pricing() {
                           <Button fullWidth disabled>&#10003; Current Plan</Button>
                         ) : planConfig.isFree ? (
                           activeTier !== "Free" ? (
-                            <Form method="POST" action="/api/billing">
+                            <Form method="POST" action={`/api/billing?host=${host || ""}`}>
                               <input type="hidden" name="plan" value="Free" />
                               <Button fullWidth tone="critical" submit>
                                 Downgrade to FREE &#8211; Starter Spark
@@ -393,7 +408,7 @@ export default function Pricing() {
                       onClick={() => {
                         billingFetcher.submit(
                           { plan: meta.billingId || checkoutPlan },
-                          { method: "post", action: "/api/billing" }
+                          { method: "post", action: `/api/billing?host=${host || ""}` }
                         );
                       }}
                       disabled={billingFetcher.state !== "idle"} style={{
