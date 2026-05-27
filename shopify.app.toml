@@ -2,7 +2,7 @@
 
 client_id = "f75b2bce0eaeca4823641df692dccc73"
 name = "TestiCraft"
-application_url = "https://testi-craft.vercel.app"
+application_url = "https://testicraft.hostvault.online"
 embedded = true
 
 [build]
@@ -27,7 +27,11 @@ optional_scopes = [ ]
 use_legacy_install_flow = false
 
 [auth]
-redirect_urls = [ "https://testi-craft.vercel.app/auth/callback" ]
+redirect_urls = [
+  "https://testicraft.hostvault.online/auth/callback",
+  "https://testicraft.hostvault.online/auth/shopify/callback",
+  "https://testicraft.hostvault.online/api/auth/callback"
+]
 
 [app_proxy]
 url = "https://example.com/api/widget"
