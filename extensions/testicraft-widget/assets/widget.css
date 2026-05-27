@@ -217,7 +217,7 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   gap: clamp(24px, 4vw, 40px);
-  padding: 30px 40px 60px 40px;
+  padding: 40px 40px 80px 40px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
   margin: 0 -40px;
@@ -227,33 +227,37 @@
 }
 .testicraft-d4-wrapper::-webkit-scrollbar { display: none; }
 .testicraft-d4-card {
-  flex: 0 0 min(380px, 85vw);
+  flex: 0 0 min(420px, 85vw);
   scroll-snap-align: center;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(226, 232, 240, 0.8);
-  border-radius: 20px;
-  padding: clamp(32px, 5vw, 48px);
+  border-radius: 24px;
+  padding: clamp(40px, 6vw, 56px) clamp(32px, 5vw, 48px);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  text-align: center;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
   font-family: 'Playfair Display', serif;
   box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03), 0 4px 10px -3px rgba(0,0,0,0.02);
   will-change: transform, box-shadow;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 .testicraft-d4-card::before {
   content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
   background: linear-gradient(90deg, var(--tc-accent, #3b82f6), #60a5fa);
+  border-radius: 24px 24px 0 0;
   opacity: 0.8;
 }
 .testicraft-d4-card:hover {
-  transform: translateY(-8px) scale(1.01);
+  transform: translateY(-8px) scale(1.02);
   border-color: #cbd5e1;
   box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1), 0 10px 20px -5px rgba(0,0,0,0.05);
+  z-index: 10;
 }
 .testicraft-d4-quote {
-  font-size: clamp(1.15rem, 2.2vw, 1.4rem);
+  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
   font-style: italic;
   color: #0f172a;
   line-height: 1.8;
@@ -269,25 +273,33 @@
 .testicraft-d4-quote::before {
   content: "“";
   position: absolute;
-  top: -20px;
-  left: -15px;
-  font-size: 5rem;
-  color: rgba(var(--tc-accent-rgb, 59, 130, 246), 0.1);
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 6rem;
+  color: rgba(var(--tc-accent-rgb, 59, 130, 246), 0.08);
   font-family: sans-serif;
   z-index: -1;
   line-height: 1;
 }
+.testicraft-d4-card .testicraft-stars {
+  justify-content: center;
+  margin-bottom: 24px !important;
+}
+.testicraft-d4-card .testicraft-stars div {
+  justify-content: center;
+}
 .testicraft-d4-author { 
-  display: flex; align-items: center; gap: 16px; margin-top: auto; 
-  border-top: 1px solid rgba(226, 232, 240, 0.6); padding-top: 24px; 
+  display: flex; flex-direction: column; align-items: center; gap: 12px; margin-top: auto; 
   font-family: var(--tc-font); 
 }
 .testicraft-d4-avatar { 
-  width: 52px; height: 52px; border-radius: 50%; object-fit: cover; 
-  box-shadow: 0 4px 10px rgba(0,0,0,0.05); border: 2px solid #ffffff; 
+  width: 64px; height: 64px; border-radius: 50%; object-fit: cover; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 3px solid #ffffff; 
+  margin-top: -10px;
 }
-.testicraft-d4-name { font-weight: 700; font-size: 1.05rem; margin: 0; color: #0f172a; letter-spacing: -0.01em; }
-.testicraft-d4-role { font-size: 0.85rem; color: #64748b; margin: 4px 0 0 0; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 600; }
+.testicraft-d4-name { font-weight: 700; font-size: 1.1rem; margin: 0; color: #0f172a; letter-spacing: -0.01em; }
+.testicraft-d4-role { font-size: 0.85rem; color: #64748b; margin: 0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 
 /* ------------------------------------------------------------- */
 /* DESIGN 5: GlassWave Reviews (GROWTH)                         */
@@ -344,34 +356,41 @@
 
 /* ------------------------------------------------------------- */
 /* DESIGN 6: Floating Trust Wall (GROWTH)                       */
-/* True CSS Masonry. Glassmorphism, deep shadows, hover polish  */
+/* Staggered Grid, Glassmorphism, Premium floating animations   */
 /* ------------------------------------------------------------- */
 .testicraft-d6-masonry {
-  column-count: 3;
-  column-gap: clamp(24px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(24px, 4vw, 40px);
+  align-items: flex-start;
   width: 100%;
-  padding-bottom: 32px;
+  padding: 40px 0;
 }
-@media (max-width: 1024px) { .testicraft-d6-masonry { column-count: 2; } }
+/* Stagger the middle column down for the floating trust-wall effect */
+.testicraft-d6-card:nth-child(3n+2) {
+  margin-top: 60px;
+}
+@media (max-width: 1024px) { 
+  .testicraft-d6-masonry { grid-template-columns: repeat(2, 1fr); } 
+  .testicraft-d6-card:nth-child(3n+2) { margin-top: 0; }
+  .testicraft-d6-card:nth-child(2n+2) { margin-top: 40px; }
+}
 @media (max-width: 640px) { 
   .testicraft-d6-masonry { 
-    column-count: 1; 
-    display: flex;
-    flex-direction: column;
-    gap: 24px;
+    grid-template-columns: 1fr;
+    padding: 20px 0;
   } 
+  .testicraft-d6-card:nth-child(n) { margin-top: 0; }
 }
 
 .testicraft-d6-card {
-  break-inside: avoid;
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border-radius: 24px;
-  padding: clamp(24px, 4vw, 36px);
-  margin-bottom: clamp(24px, 4vw, 40px);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.8);
-  border: 1px solid rgba(255,255,255,0.5);
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 28px;
+  padding: clamp(32px, 5vw, 40px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.04), inset 0 1px 1px rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,0.6);
   display: flex;
   flex-direction: column;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.4s ease;
@@ -381,51 +400,49 @@
   position: relative;
   overflow: hidden;
 }
-
-@media (max-width: 640px) {
-  .testicraft-d6-card {
-    margin-bottom: 0;
-  }
+.testicraft-d6-card::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 100%);
+  pointer-events: none;
 }
 
-/* Explicit Mobile Simulation Modal Overrides (Bypasses viewport 'vw' scaling) */
+/* Explicit Mobile Simulation Modal Overrides */
 .tc-mobile-sim .testicraft-d6-masonry {
-  column-count: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
+  grid-template-columns: 1fr;
+  padding: 20px 0;
+}
+.tc-mobile-sim .testicraft-d6-card:nth-child(n) {
+  margin-top: 0;
 }
 .tc-mobile-sim .testicraft-d6-card {
-  margin-bottom: 0;
-  padding: 20px;
+  padding: 24px;
+  border-radius: 20px;
 }
-.tc-mobile-sim .testicraft-d6-avatar {
-  width: 44px;
-  height: 44px;
-}
-.tc-mobile-sim .testicraft-d6-name {
-  font-size: 1rem;
-}
-.tc-mobile-sim .testicraft-d6-role {
-  font-size: 0.8rem;
-}
-.tc-mobile-sim .testicraft-d6-quote {
-  font-size: 0.95rem;
-}
+.tc-mobile-sim .testicraft-d6-avatar { width: 48px; height: 48px; }
+.tc-mobile-sim .testicraft-d6-name { font-size: 1.05rem; }
+.tc-mobile-sim .testicraft-d6-role { font-size: 0.85rem; }
+.tc-mobile-sim .testicraft-d6-quote { font-size: 1rem; }
 
 .testicraft-d6-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  box-shadow: 0 30px 60px rgba(0,0,0,0.08), 0 10px 20px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,1); 
+  transform: translateY(-12px) scale(1.02);
+  box-shadow: 0 40px 80px rgba(0,0,0,0.08), 0 15px 30px rgba(0,0,0,0.04), inset 0 1px 1px rgba(255,255,255,1); 
   background: rgba(255, 255, 255, 0.95);
   z-index: 10;
 }
 .testicraft-d6-header { 
   display: flex; 
-  justify-content: space-between; 
+  flex-direction: column;
+  justify-content: flex-start; 
   align-items: flex-start; 
-  margin-bottom: 20px; 
+  margin-bottom: 24px; 
   gap: 16px;
-  flex-wrap: wrap; 
+  position: relative;
+  z-index: 2;
+}
+.testicraft-d6-header .testicraft-stars {
+  margin-top: 8px;
 }
 .testicraft-d6-author { 
   display: flex; 
@@ -434,12 +451,13 @@
   min-width: 0;
 }
 .testicraft-d6-avatar { 
-  width: clamp(44px, 10vw, 56px); 
-  height: clamp(44px, 10vw, 56px); 
-  border-radius: 16px; 
+  width: clamp(52px, 10vw, 64px); 
+  height: clamp(52px, 10vw, 64px); 
+  border-radius: 50%; 
   object-fit: cover; 
   flex-shrink: 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  border: 2px solid #fff;
 }
 .testicraft-d6-name-wrap {
   display: flex;
@@ -448,26 +466,28 @@
 }
 .testicraft-d6-name { 
   font-weight: 800; 
-  font-size: clamp(1rem, 2.5vw, 1.1rem); 
+  font-size: clamp(1.1rem, 2.5vw, 1.2rem); 
   margin: 0; 
   color: #0f172a; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
 }
 .testicraft-d6-role { 
-  font-size: clamp(0.8rem, 2vw, 0.85rem); 
+  font-size: clamp(0.85rem, 2vw, 0.9rem); 
   color: #64748b; 
   margin: 4px 0 0 0; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 .testicraft-d6-quote {
-  font-size: clamp(1rem, 2.2vw, 1.15rem);
-  line-height: 1.7;
+  font-size: clamp(1.1rem, 2.2vw, 1.25rem);
+  line-height: 1.8;
   color: #334155;
   margin: 0;
   display: -webkit-box;
@@ -476,20 +496,25 @@
   -webkit-box-orient: vertical;
   overflow: hidden;
   word-break: break-word;
+  position: relative;
+  z-index: 2;
 }
 
 /* ------------------------------------------------------------- */
 /* DESIGN 7: Luxury Spotlight (PREMIUM)                         */
-/* Cinematic ambient shadow, heavy opacity transitions          */
+/* Cinematic Hero Layout, Deep Focal Hierarchy                  */
 /* ------------------------------------------------------------- */
 .testicraft-d7-grid {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: clamp(24px, 3vw, 40px);
-  padding: 20px 0;
+  gap: clamp(16px, 2vw, 32px);
+  padding: 40px 0;
+  perspective: 1500px;
 }
-@media (max-width: 1024px) { .testicraft-d7-grid { flex-direction: column; align-items: stretch; } }
+@media (max-width: 1024px) { 
+  .testicraft-d7-grid { flex-direction: column; align-items: stretch; gap: 24px; padding: 20px 0; } 
+}
 
 .testicraft-d7-card {
   flex: 1;
@@ -497,65 +522,93 @@
   color: #f8fafc;
   border-radius: 24px;
   padding: clamp(32px, 5vw, 48px);
-  border: 1px solid rgba(51, 65, 85, 0.5);
+  border: 1px solid rgba(51, 65, 85, 0.4);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  opacity: 0.4; /* Deep dim state */
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  transition: opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* Deep recess for side cards by default */
+  opacity: 0.35; 
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  transform: scale(0.9) translateZ(-50px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform, opacity, box-shadow;
-  transform: scale(0.95);
 }
 .testicraft-d7-card::before {
   content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
   background: linear-gradient(90deg, transparent, var(--tc-accent, #f59e0b), transparent);
-  opacity: 0; transition: opacity 0.6s ease;
+  opacity: 0; transition: opacity 0.7s ease;
 }
 .testicraft-d7-card::after {
-  content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(var(--tc-accent-rgb, 245, 158, 11), 0.1), transparent 50%);
-  opacity: 0; transition: opacity 0.6s ease; pointer-events: none;
+  content: ""; position: absolute; inset: 0; background: radial-gradient(circle at top right, rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15), transparent 60%);
+  opacity: 0; transition: opacity 0.7s ease; pointer-events: none;
 }
 .testicraft-d7-card .testicraft-quote-icon {
   position: absolute;
-  top: 24px;
-  right: 24px;
-  color: rgba(255,255,255,0.05);
-  width: 80px;
-  height: 80px;
+  top: 32px;
+  right: 32px;
+  color: rgba(255,255,255,0.03);
+  width: 120px;
+  height: 120px;
   z-index: 0;
-  transition: color 0.6s ease;
+  transition: color 0.7s ease, transform 0.7s ease;
+  transform: rotate(10deg);
 }
-.testicraft-d7-grid:hover .testicraft-d7-card:hover .testicraft-quote-icon,
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) .testicraft-quote-icon {
-  color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15);
-}
-/* Focus State (Hover or Center) */
-.testicraft-d7-grid:hover .testicraft-d7-card:hover,
+
+/* Base "Spotlight" state: Middle card is the hero if nothing is hovered */
 .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) {
   opacity: 1;
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 0 80px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15), 0 30px 60px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.05);
-  border-color: rgba(100, 116, 139, 0.5);
+  transform: scale(1.05) translateZ(20px);
+  box-shadow: 0 0 100px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15), 0 40px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+  border-color: rgba(100, 116, 139, 0.6);
   z-index: 10;
 }
-.testicraft-d7-grid:hover .testicraft-d7-card:hover::before,
 .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::before,
-.testicraft-d7-grid:hover .testicraft-d7-card:hover::after,
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2):after { opacity: 1; }
-/* Override center if another is hovered */
+.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::after { opacity: 1; }
+.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) .testicraft-quote-icon {
+  color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.1);
+  transform: rotate(0deg) scale(1.1);
+}
+
+/* Hover State: The hovered card takes the spotlight */
+.testicraft-d7-grid:hover .testicraft-d7-card:hover {
+  opacity: 1;
+  transform: scale(1.08) translateZ(30px);
+  box-shadow: 0 0 120px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.2), 0 50px 100px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.1);
+  border-color: rgba(148, 163, 184, 0.5);
+  z-index: 20;
+}
+.testicraft-d7-grid:hover .testicraft-d7-card:hover::before,
+.testicraft-d7-grid:hover .testicraft-d7-card:hover::after { opacity: 1; }
+.testicraft-d7-grid:hover .testicraft-d7-card:hover .testicraft-quote-icon {
+  color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.12);
+  transform: rotate(0deg) scale(1.15);
+}
+
+/* Ensure non-hovered cards recede heavily when a sibling is hovered */
 .testicraft-d7-grid:hover .testicraft-d7-card:not(:hover) {
-  opacity: 0.3;
-  transform: translateY(0) scale(0.95);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  border-color: rgba(51, 65, 85, 0.5);
+  opacity: 0.25;
+  transform: scale(0.85) translateZ(-80px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+  border-color: rgba(30, 41, 59, 0.8);
   z-index: 1;
 }
+
+@media (max-width: 1024px) {
+  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2),
+  .testicraft-d7-card,
+  .testicraft-d7-grid:hover .testicraft-d7-card:hover,
+  .testicraft-d7-grid:hover .testicraft-d7-card:not(:hover) {
+    transform: none; /* Disable extreme 3D scaling on mobile for stability */
+    opacity: 1;
+    z-index: auto;
+  }
+}
+
 .testicraft-d7-quote {
-  font-size: clamp(1.2rem, 2.2vw, 1.4rem);
+  font-size: clamp(1.2rem, 2.4vw, 1.45rem);
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.8;
   color: #f1f5f9;
   margin: 0 0 40px 0;
   display: -webkit-box;
@@ -565,12 +618,14 @@
   overflow: hidden;
   font-family: 'Playfair Display', serif;
   font-style: italic;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.03em;
+  position: relative;
+  z-index: 2;
 }
-.testicraft-d7-author { display: flex; align-items: center; gap: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; }
-.testicraft-d7-avatar { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
-.testicraft-d7-name { font-weight: 600; font-size: 1.1rem; margin: 0; color: #fff; letter-spacing: 0.02em; }
-.testicraft-d7-role { font-size: 0.85rem; color: #94a3b8; margin: 4px 0 0 0; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; }
+.testicraft-d7-author { display: flex; align-items: center; gap: 20px; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 24px; position: relative; z-index: 2; }
+.testicraft-d7-avatar { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255,255,255,0.15); box-shadow: 0 8px 20px rgba(0,0,0,0.6); }
+.testicraft-d7-name { font-weight: 700; font-size: 1.15rem; margin: 0; color: #fff; letter-spacing: 0.02em; }
+.testicraft-d7-role { font-size: 0.85rem; color: #94a3b8; margin: 4px 0 0 0; text-transform: uppercase; letter-spacing: 0.15em; font-weight: 700; }
 
 /* ------------------------------------------------------------- */
 /* DESIGN 8: Cinematic 3D Reviews (PREMIUM)                     */
