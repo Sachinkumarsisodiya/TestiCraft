@@ -12,8 +12,25 @@ export const action = async ({ request }) => {
   const plan = formData.get("plan");
 
   const url = new URL(request.url);
-  const host = url.searchParams.get("host");
-  const returnUrl = `${process.env.SHOPIFY_APP_URL}/app/pricing?shop=${session.shop}&host=${host}`;
+  let host = url.searchParams.get("host");
+  
+  // Log URL variables for debugging
+  console.log("SHOPIFY_APP_URL:", process.env.SHOPIFY_APP_URL);
+  console.log("APP_URL:", process.env.APP_URL);
+  console.log("request.url:", request.url);
+  console.log("host:", host);
+  console.log("shop:", session.shop);
+
+  let returnUrl;
+  try {
+    const baseUrl = process.env.SHOPIFY_APP_URL || process.env.APP_URL || url.origin;
+    if (!baseUrl) throw new Error("Base URL is missing");
+    returnUrl = new URL(`/app/pricing?shop=${session.shop}${host ? `&host=${host}` : ""}`, baseUrl).toString();
+  } catch (err) {
+    console.error("Error constructing returnUrl:", err);
+    returnUrl = `${url.origin}/app/pricing?shop=${session.shop}`;
+  }
+  console.log("final returnUrl:", returnUrl);
 
   // If user requests to downgrade to Free, cancel their current active billing subscription
   if (plan === "Free") {
