@@ -28,10 +28,10 @@ export const action = async ({ request }) => {
     
     // The embedded=1 parameter prevents Shopify App Remix from triggering a new OAuth flow
     // when returning from the top-level Shopify billing approval screen.
-    returnUrl = new URL(`/app/pricing?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1`, baseUrl).toString();
+    returnUrl = new URL(`/billing-return?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1`, baseUrl).toString();
   } catch (err) {
     console.error("Error constructing returnUrl:", err);
-    returnUrl = `${url.origin}/app/pricing?shop=${session.shop}&embedded=1`;
+    returnUrl = `${url.origin}/billing-return?shop=${session.shop}&embedded=1`;
   }
   console.log("final returnUrl:", returnUrl);
 
