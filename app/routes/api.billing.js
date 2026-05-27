@@ -11,8 +11,9 @@ export const action = async ({ request }) => {
   const formData = await request.formData();
   const plan = formData.get("plan");
 
-  const cleanShop = session.shop.replace(".myshopify.com", "");
-  const returnUrl = `${process.env.SHOPIFY_APP_URL}/app/pricing`;
+  const url = new URL(request.url);
+  const host = url.searchParams.get("host");
+  const returnUrl = `${process.env.SHOPIFY_APP_URL}/app/pricing?shop=${session.shop}&host=${host}`;
 
   // If user requests to downgrade to Free, cancel their current active billing subscription
   if (plan === "Free") {

@@ -7,21 +7,26 @@ import { PLANS, PLAN_ORDER, getUpgradeTarget } from "../constants/plans";
 
 export const loader = async ({ request }) => {
   const { billing } = await shopify.authenticate.admin(request);
+  const url = new URL(request.url);
+  const charge_id = url.searchParams.get("charge_id");
 
   let activeTier = "Free";
   try {
-    const billingCheck = await billing.check({
-      plans: ["Tier 1", "Tier 2", "Tier 3"],
-      isTest: true,
-    });
-    if (billingCheck.hasActivePayment && billingCheck.appSubscriptions.length > 0) {
-      activeTier = billingCheck.appSubscriptions[0].name;
+    if (billing) {
+      const billingCheck = await billing.check({
+        plans: ["Tier 1", "Tier 2", "Tier 3"],
+        isTest: true,
+      });
+      if (billingCheck.hasActivePayment && billingCheck.appSubscriptions.length > 0) {
+        activeTier = billingCheck.appSubscriptions[0].name;
+      }
     }
   } catch (error) {
+    console.error("Billing check error on pricing:", error);
     activeTier = "Free";
   }
 
-  return { activeTier };
+  return { activeTier, charge_id };
 };
 
 // Pricing page plan definitions (display order)
@@ -53,8 +58,9 @@ const PRICING_PLANS = [
 ];
 
 export default function Pricing() {
-  const { activeTier } = useLoaderData() || {};
+  const { activeTier, charge_id } = useLoaderData() || {};
   const [checkoutPlan, setCheckoutPlan] = useState(null);
+  const [showSuccessBanner, setShowSuccessBanner] = useState(!!charge_id);
 
   const openCheckout = (planKey) => setCheckoutPlan(planKey);
   const closeCheckout = () => setCheckoutPlan(null);
@@ -135,6 +141,16 @@ export default function Pricing() {
             <div style={{ fontSize: "0.9rem", color: "#64748b", fontWeight: "500", marginTop: "2px" }}>Pricing & Plans</div>
           </div>
         </div>
+
+        {showSuccessBanner && (
+          <Banner
+            title="Subscription Activated Successfully!"
+            tone="success"
+            onDismiss={() => setShowSuccessBanner(false)}
+          >
+            <p>Your premium plan features are now fully unlocked.</p>
+          </Banner>
+        )}
 
         <div style={{ textAlign: "center", margin: "32px 0 8px 0" }}>
           <Text variant="heading3xl" as="h1" fontWeight="bold">Choose Your Plan</Text>

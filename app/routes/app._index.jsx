@@ -27,14 +27,17 @@ export const loader = async ({ request }) => {
 
   let activeTier = "Free";
   try {
-    const billingCheck = await billing.check({
-      plans: ["Tier 1", "Tier 2", "Tier 3"],
-      isTest: true,
-    });
-    if (billingCheck.hasActivePayment && billingCheck.appSubscriptions.length > 0) {
-      activeTier = billingCheck.appSubscriptions[0].name;
+    if (billing) {
+      const billingCheck = await billing.check({
+        plans: ["Tier 1", "Tier 2", "Tier 3"],
+        isTest: true,
+      });
+      if (billingCheck.hasActivePayment && billingCheck.appSubscriptions.length > 0) {
+        activeTier = billingCheck.appSubscriptions[0].name;
+      }
     }
   } catch (error) {
+    console.error("Billing check error on dashboard:", error);
     activeTier = "Free";
   }
 
