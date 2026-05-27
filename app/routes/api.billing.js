@@ -25,10 +25,13 @@ export const action = async ({ request }) => {
   try {
     const baseUrl = process.env.SHOPIFY_APP_URL || process.env.APP_URL || url.origin;
     if (!baseUrl) throw new Error("Base URL is missing");
-    returnUrl = new URL(`/app/pricing?shop=${session.shop}${host ? `&host=${host}` : ""}`, baseUrl).toString();
+    
+    // The embedded=1 parameter prevents Shopify App Remix from triggering a new OAuth flow
+    // when returning from the top-level Shopify billing approval screen.
+    returnUrl = new URL(`/app/pricing?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1`, baseUrl).toString();
   } catch (err) {
     console.error("Error constructing returnUrl:", err);
-    returnUrl = `${url.origin}/app/pricing?shop=${session.shop}`;
+    returnUrl = `${url.origin}/app/pricing?shop=${session.shop}&embedded=1`;
   }
   console.log("final returnUrl:", returnUrl);
 
