@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { useLoaderData, Form, useRouteError } from "react-router";
-import { Page, Text, BlockStack, InlineStack, Button, Grid, Modal } from "@shopify/polaris";
+import { useState, useEffect } from "react";
+import { useLoaderData, Form, useRouteError, useFetcher } from "react-router";
+import { Page, Text, BlockStack, InlineStack, Button, Grid, Modal, Banner, Spinner } from "@shopify/polaris";
 import shopify from "../shopify.server";
 import { TestiCraftLogo } from "../components/TestiCraftLogo";
 import { PLANS, PLAN_ORDER, getUpgradeTarget } from "../constants/plans";
@@ -58,6 +58,22 @@ export default function Pricing() {
 
   const openCheckout = (planKey) => setCheckoutPlan(planKey);
   const closeCheckout = () => setCheckoutPlan(null);
+
+  const billingFetcher = useFetcher();
+
+  useEffect(() => {
+    if (billingFetcher.data) {
+      console.log("FRONTEND billingFetcher.data:", billingFetcher.data);
+    }
+    
+    if (billingFetcher.data?.confirmationUrl) {
+      // Use App Bridge v4 equivalent of Redirect.Action.REMOTE
+      console.log("FRONTEND confirmationUrl before redirect:", billingFetcher.data.confirmationUrl);
+      window.open(billingFetcher.data.confirmationUrl, "_top");
+    } else if (billingFetcher.data?.success && billingFetcher.data?.plan === "Free") {
+      closeCheckout();
+    }
+  }, [billingFetcher.data]);
 
   const safeTier = activeTier || "Free";
   const upgrade = getUpgradeTarget(safeTier);
@@ -316,65 +332,81 @@ export default function Pricing() {
       {/* SHOPIFY BILLING CHECKOUT MODAL */}
       <Modal
         open={!!checkoutPlan}
-        onClose={closeCheckout}
-        title="Confirm Upgrade via Shopify Billing"
+        onClose={() => { if (billingFetcher.state === "idle") closeCheckout(); }}
+        title={`Upgrade to ${checkoutPlan ? PLANS[checkoutPlan].displayName : ""}`}
       >
         <Modal.Section>
-          <BlockStack gap="500">
-            {/* Modal Content */}
-            <div style={{ textAlign: "center" }}>
-              <Text variant="headingLg" as="h2">Confirm Your Upgrade</Text>
-              {checkoutPlan && (() => {
-                const meta = PLANS[checkoutPlan];
-                return (
-                  <div style={{ marginTop: "12px" }}>
-                    <div style={{
-                      display: "inline-block",
-                      background: meta.bgColor, color: meta.color,
-                      padding: "6px 16px", borderRadius: "20px",
-                      fontSize: "0.85rem", fontWeight: "700",
-                      marginBottom: "12px",
-                    }}>
-                      {meta.displayName}
+          <BlockStack gap="400">
+            {billingFetcher.data?.error && (
+              <Banner title="Billing Error" tone="critical">
+                {billingFetcher.data.error}
+              </Banner>
+            )}
+            {checkoutPlan && (() => {
+              const meta = PLANS[checkoutPlan];
+              return (
+                <>
+                  <div style={{ 
+                    textAlign: "center", margin: "24px 0", display: "flex", flexDirection: "column", alignItems: "center",
+                    transition: "opacity 0.3s ease",
+                    opacity: billingFetcher.state !== "idle" ? 0.5 : 1,
+                    pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto"
+                  }}>
+                    <div style={{ display: "inline-flex", justifyContent: "center", alignItems: "center", width: "48px", height: "48px", borderRadius: "50%", background: meta.bgColor || "#fef3c7", color: meta.color || "#f59e0b", marginBottom: "16px" }}>
+                      <span style={{ fontSize: "1.5rem" }}>⭐</span>
                     </div>
-                    <br />
-                    <Text variant="bodyMd" as="p" tone="subdued">
-                      {meta.price}/month &mdash; You will be securely redirected to Shopify&apos;s billing page to complete your subscription.
-                    </Text>
+                    <h2 style={{ fontSize: "1.1rem", fontWeight: "700", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px", lineHeight: 1.3 }}>
+                      {meta.displayName}
+                    </h2>
+                    <div style={{ fontSize: "2.8rem", fontWeight: "800", color: "#0f172a", marginBottom: "16px", letterSpacing: "-0.03em", lineHeight: 1.1 }}>
+                      {meta.price}<span style={{ fontSize: "1.2rem", color: "#64748b", fontWeight: "600", letterSpacing: "normal" }}>/mo</span>
+                    </div>
+                    <p style={{ fontSize: "1.15rem", color: "#475569", maxWidth: "380px", margin: "0 auto", lineHeight: 1.6 }}>
+                      {meta.tagline}
+                    </p>
                   </div>
-                );
-              })()}
-            </div>
-
-            <div style={{ maxWidth: "400px", margin: "0 auto", width: "100%" }}>
-              <Form method="POST" action="/api/billing" style={{ width: "100%" }}>
-                <input type="hidden" name="plan" value={checkoutPlan} />
-                <button type="submit" style={{
-                  width: "100%", padding: "16px 20px", borderRadius: "12px",
-                  background: checkoutPlan === "Tier 2"
-                    ? "linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%)"
-                    : "linear-gradient(135deg, #111827 0%, #1e293b 100%)",
-                  color: "#fff", border: "none", fontSize: "1.05rem", fontWeight: "bold",
-                  cursor: "pointer", display: "flex", alignItems: "center",
-                  justifyContent: "center", gap: "8px",
-                  boxShadow: checkoutPlan === "Tier 2"
-                    ? "0 8px 24px rgba(124,58,237,0.4)"
-                    : "0 10px 20px -5px rgba(17,24,39,0.3)",
-                  transition: "transform 0.1s",
-                }}
-                onMouseDown={(e) => { e.currentTarget.style.transform = "scale(0.98)"; }}
-                onMouseUp={(e) => { e.currentTarget.style.transform = "scale(1)"; }}
-                >
-                  &#128274; Subscribe via Shopify Billing
-                </button>
-              </Form>
-            </div>
-
-            <div style={{ textAlign: "center" }}>
-              <Text variant="bodySm" tone="subdued">
-                Managed securely by Shopify. Cancel anytime from your Shopify admin.
-              </Text>
-            </div>
+                  
+                  <div style={{ 
+                    display: "flex", justifyContent: "center", gap: "12px", marginTop: "32px", marginBottom: "12px",
+                    pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto"
+                  }}>
+                    <Button onClick={closeCheckout} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
+                    <Button onClick={closeCheckout} disabled={billingFetcher.state !== "idle"}>Cancel</Button>
+                    <button 
+                      type="button" 
+                      onClick={() => {
+                        billingFetcher.submit(
+                          { plan: meta.billingId || checkoutPlan },
+                          { method: "post", action: "/api/billing" }
+                        );
+                      }}
+                      disabled={billingFetcher.state !== "idle"} style={{
+                        background: billingFetcher.state !== "idle" ? "#475569" : "#111827",
+                        color: "#ffffff",
+                        border: "none",
+                        padding: "9px 20px",
+                        borderRadius: "6px",
+                        fontSize: "14px",
+                        fontWeight: "600",
+                        cursor: billingFetcher.state !== "idle" ? "wait" : "pointer",
+                        boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                        transition: "background 0.2s"
+                      }}
+                      onMouseEnter={(e) => e.currentTarget.style.background = billingFetcher.state !== "idle" ? "#475569" : "#000000"}
+                      onMouseLeave={(e) => e.currentTarget.style.background = billingFetcher.state !== "idle" ? "#475569" : "#111827"}
+                    >
+                      {billingFetcher.state !== "idle" ? (
+                        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                          <Spinner size="small" /> Redirecting to Shopify...
+                        </div>
+                      ) : (
+                        `Upgrade Now — ${meta.price}/mo`
+                      )}
+                    </button>
+                  </div>
+                </>
+              );
+            })()}
           </BlockStack>
         </Modal.Section>
       </Modal>

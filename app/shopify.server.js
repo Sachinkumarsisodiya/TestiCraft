@@ -37,6 +37,11 @@ const shopify = shopifyApp({
       currencyCode: "USD",
       interval: BillingInterval.Every30Days,
     },
+    "Pro Plan": {
+      amount: 99.0,
+      currencyCode: "USD",
+      interval: BillingInterval.Every30Days,
+    },
   },
   ...(process.env.SHOP_CUSTOM_DOMAIN
     ? { customShopDomains: [process.env.SHOP_CUSTOM_DOMAIN] }

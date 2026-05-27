@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useFetcher, useLoaderData, Form, useRouteError } from "react-router";
-import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal } from "@shopify/polaris";
+import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal, Banner, Spinner } from "@shopify/polaris";
 import { LockIcon, ViewIcon } from "@shopify/polaris-icons";
 import prisma from "../db.server";
 import { authenticate } from "../shopify.server";
@@ -73,7 +73,7 @@ export default function Dashboard() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewDesign, setPreviewDesign] = useState("design-1");
   const [previewDevice, setPreviewDevice] = useState("desktop");
-  
+  const [upgradeModalPlan, setUpgradeModalPlan] = useState(null);
   const heading = widget?.heading || "";
   const subheading = widget?.subheading || "";
   const fontFamily = widget?.fontFamily || "Inter";
@@ -96,12 +96,27 @@ export default function Dashboard() {
     fetcher.submit(formData, { method: "POST" });
   };
 
+  const billingFetcher = useFetcher();
+
+  useEffect(() => {
+    if (billingFetcher.data) {
+      console.log("FRONTEND billingFetcher.data:", billingFetcher.data);
+    }
+    
+    if (billingFetcher.data?.confirmationUrl) {
+      console.log("FRONTEND confirmationUrl before redirect:", billingFetcher.data.confirmationUrl);
+      window.open(billingFetcher.data.confirmationUrl, "_top");
+    } else if (billingFetcher.data?.success && billingFetcher.data?.plan === "Free") {
+      setUpgradeModalPlan(null);
+    }
+  }, [billingFetcher.data]);
+
   // Use centralized helper from constants/plans.js
   const safeTier = activeTier || "Free";
   const upgrade = getUpgradeTarget(safeTier);
   const activePlan = PLANS[safeTier] || PLANS["Free"];
 
-  const isSaving = fetcher.state !== "idle";
+
 
   // MOCK CSS-BASED THEME PREVIEWS FOR CARDS (Refined GPU-friendly rendering)
   const renderCardThemeMock = (designId, locked, lockPlanName) => {
@@ -513,16 +528,13 @@ export default function Dashboard() {
 
                                   <div style={{ flex: 1 }}>
                                     {locked ? (
-                                      <Form method="POST" action="/api/billing">
-                                        <input type="hidden" name="plan" value={plan.billingId} />
-                                        <button type="submit" style={{ width: "100%", height: "100%", padding: "8px 14px", background: plan.color, color: "#fff", border: "none", borderRadius: "8px", fontSize: "0.82rem", fontWeight: "700", cursor: "pointer", minWidth: "110px", transition: "transform 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", lineHeight: 1.3 }}
-                                          onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.97)"}
-                                          onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
-                                        >
-                                          <span style={{ width: "13px", height: "13px", display: "block", flexShrink: 0 }}><Icon source={LockIcon} tone="inherit" /></span>
-                                          {`Upgrade to ${plan.badge.charAt(0) + plan.badge.slice(1).toLowerCase()}`}
-                                        </button>
-                                      </Form>
+                                      <button type="button" onClick={() => setUpgradeModalPlan(plan)} style={{ width: "100%", height: "100%", padding: "8px 14px", background: plan.color, color: "#fff", border: "none", borderRadius: "8px", fontSize: "0.82rem", fontWeight: "700", cursor: "pointer", minWidth: "110px", transition: "transform 0.2s", display: "flex", alignItems: "center", justifyContent: "center", gap: "5px", lineHeight: 1.3 }}
+                                        onMouseDown={(e) => e.currentTarget.style.transform = "scale(0.97)"}
+                                        onMouseUp={(e) => e.currentTarget.style.transform = "scale(1)"}
+                                      >
+                                        <span style={{ width: "13px", height: "13px", display: "block", flexShrink: 0 }}><Icon source={LockIcon} tone="inherit" /></span>
+                                        {`Upgrade to ${plan.badge.charAt(0) + plan.badge.slice(1).toLowerCase()}`}
+                                      </button>
                                     ) : active ? (
                                       <div style={{ width: "100%", padding: "8px 14px", background: "#d1fae5", color: "#10b981", border: "1px solid #10b981", borderRadius: "8px", fontSize: "0.95rem", fontWeight: "700", display: "flex", alignItems: "center", justifyContent: "center", gap: "6px" }}>
                                         ✓ Active
@@ -612,27 +624,24 @@ export default function Dashboard() {
               {/* Right: Upgrade CTA or max plan badge */}
               <div>
                 {upgrade ? (
-                  <Form method="POST" action="/api/billing">
-                    <input type="hidden" name="plan" value={upgrade.plan} />
-                    <button type="submit" style={{
-                      background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
-                      color: "#fff",
-                      border: "1px solid rgba(255,255,255,0.08)",
-                      padding: "10px 20px",
-                      borderRadius: "10px",
-                      fontSize: "0.9rem",
-                      fontWeight: "600",
-                      cursor: "pointer",
-                      boxShadow: "0 4px 12px rgba(15,23,42,0.15)",
-                      transition: "all 0.2s ease",
-                      whiteSpace: "nowrap"
-                    }}
-                    onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 16px rgba(15,23,42,0.22)"; }}
-                    onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(15,23,42,0.15)"; }}
-                    >
-                      {upgrade.label} →
-                    </button>
-                  </Form>
+                  <button type="button" onClick={() => setUpgradeModalPlan(PLANS[upgrade.plan])} style={{
+                    background: "linear-gradient(135deg, #0f172a 0%, #1e293b 100%)",
+                    color: "#fff",
+                    border: "1px solid rgba(255,255,255,0.08)",
+                    padding: "10px 20px",
+                    borderRadius: "10px",
+                    fontSize: "0.9rem",
+                    fontWeight: "600",
+                    cursor: "pointer",
+                    boxShadow: "0 4px 12px rgba(15,23,42,0.15)",
+                    transition: "all 0.2s ease",
+                    whiteSpace: "nowrap"
+                  }}
+                  onMouseEnter={(e) => { e.currentTarget.style.transform = "translateY(-2px)"; e.currentTarget.style.boxShadow = "0 6px 16px rgba(15,23,42,0.22)"; }}
+                  onMouseLeave={(e) => { e.currentTarget.style.transform = "translateY(0)"; e.currentTarget.style.boxShadow = "0 4px 12px rgba(15,23,42,0.15)"; }}
+                  >
+                    {upgrade.label} →
+                  </button>
                 ) : (
                   <div style={{
                     background: "rgba(245,158,11,0.1)",
@@ -658,6 +667,81 @@ export default function Dashboard() {
         {renderTemplateMarketplace()}
 
       </BlockStack>
+
+      {/* DYNAMIC UPGRADE MODAL */}
+      <Modal
+        open={!!upgradeModalPlan}
+        onClose={() => { if (billingFetcher.state === "idle") setUpgradeModalPlan(null); }}
+        title={`Upgrade to ${upgradeModalPlan?.displayName || ""}`}
+      >
+        <Modal.Section>
+          <BlockStack gap="400">
+            {billingFetcher.data?.error && (
+              <Banner title="Billing Error" tone="critical">
+                {billingFetcher.data.error}
+              </Banner>
+            )}
+            <div style={{ 
+              textAlign: "center", margin: "24px 0", display: "flex", flexDirection: "column", alignItems: "center",
+              transition: "opacity 0.3s ease",
+              opacity: billingFetcher.state !== "idle" ? 0.5 : 1,
+              pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto"
+            }}>
+              <div style={{ display: "inline-flex", justifyContent: "center", alignItems: "center", width: "48px", height: "48px", borderRadius: "50%", background: upgradeModalPlan?.bgColor || "#fef3c7", color: upgradeModalPlan?.color || "#f59e0b", marginBottom: "16px" }}>
+                <span style={{ fontSize: "1.5rem" }}>⭐</span>
+              </div>
+              <h2 style={{ fontSize: "1.1rem", fontWeight: "700", color: "#64748b", textTransform: "uppercase", letterSpacing: "0.1em", marginBottom: "8px", lineHeight: 1.3 }}>
+                {upgradeModalPlan?.displayName}
+              </h2>
+              <div style={{ fontSize: "2.8rem", fontWeight: "800", color: "#0f172a", marginBottom: "16px", letterSpacing: "-0.03em", lineHeight: 1.1 }}>
+                {upgradeModalPlan?.price}<span style={{ fontSize: "1.2rem", color: "#64748b", fontWeight: "600", letterSpacing: "normal" }}>/mo</span>
+              </div>
+              <p style={{ fontSize: "1.15rem", color: "#475569", maxWidth: "380px", margin: "0 auto", lineHeight: 1.6 }}>
+                {upgradeModalPlan?.tagline}
+              </p>
+            </div>
+            
+            <div style={{ 
+              display: "flex", justifyContent: "center", gap: "12px", marginTop: "32px", marginBottom: "12px",
+              pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto" 
+            }}>
+              <Button onClick={() => setUpgradeModalPlan(null)} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
+              <Button onClick={() => setUpgradeModalPlan(null)} disabled={billingFetcher.state !== "idle"}>Cancel</Button>
+              <button 
+                type="button" 
+                onClick={() => {
+                  billingFetcher.submit(
+                    { plan: upgradeModalPlan?.billingId || "" },
+                    { method: "post", action: "/api/billing" }
+                  );
+                }}
+                disabled={billingFetcher.state !== "idle"} style={{
+                  background: billingFetcher.state !== "idle" ? "#475569" : "#111827",
+                  color: "#ffffff",
+                  border: "none",
+                  padding: "9px 20px",
+                  borderRadius: "6px",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  cursor: billingFetcher.state !== "idle" ? "wait" : "pointer",
+                  boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+                  transition: "background 0.2s"
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = billingFetcher.state !== "idle" ? "#475569" : "#000000"}
+                onMouseLeave={(e) => e.currentTarget.style.background = billingFetcher.state !== "idle" ? "#475569" : "#111827"}
+              >
+                {billingFetcher.state !== "idle" ? (
+                  <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                    <Spinner size="small" /> Redirecting to Shopify...
+                  </div>
+                ) : (
+                  `Upgrade Now — ${upgradeModalPlan?.price}/mo`
+                )}
+              </button>
+            </div>
+          </BlockStack>
+        </Modal.Section>
+      </Modal>
 
       {/* REALISTIC LIVE PREVIEW MODAL */}
       <Modal
