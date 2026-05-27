@@ -13,6 +13,7 @@
   font-family: var(--tc-font);
   color: var(--tc-text);
   box-sizing: border-box;
+  container-type: inline-size;
 }
 
 .testicraft-section {
@@ -210,13 +211,13 @@
 
 /* ------------------------------------------------------------- */
 /* DESIGN 4: Elegant Carousel (STARTER)                         */
-/* Horizontal snap scroll, cinematic spacing, smooth gradients  */
+/* Horizontal snap scroll, cinematic spacing, unbreakable sizes */
 /* ------------------------------------------------------------- */
 .testicraft-d4-wrapper {
   display: flex;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  gap: clamp(24px, 4vw, 40px);
+  gap: 32px;
   padding: 40px 40px 80px 40px;
   -webkit-overflow-scrolling: touch;
   scrollbar-width: none;
@@ -227,40 +228,39 @@
 }
 .testicraft-d4-wrapper::-webkit-scrollbar { display: none; }
 .testicraft-d4-card {
-  flex: 0 0 min(420px, 85vw);
+  flex: 0 0 auto;
+  width: 400px;
+  max-width: 85cqi; /* 85% of container inline size */
   scroll-snap-align: center;
   background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
   border: 1px solid rgba(226, 232, 240, 0.8);
   border-radius: 24px;
-  padding: clamp(40px, 6vw, 56px) clamp(32px, 5vw, 48px);
+  padding: 48px 40px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.4s ease;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
   font-family: 'Playfair Display', serif;
-  box-shadow: 0 10px 25px -5px rgba(0,0,0,0.03), 0 4px 10px -3px rgba(0,0,0,0.02);
-  will-change: transform, box-shadow;
+  box-shadow: 0 10px 30px -5px rgba(0,0,0,0.05), 0 4px 12px -3px rgba(0,0,0,0.03);
   position: relative;
   overflow: visible;
 }
 .testicraft-d4-card::before {
-  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 5px;
+  content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 6px;
   background: linear-gradient(90deg, var(--tc-accent, #3b82f6), #60a5fa);
   border-radius: 24px 24px 0 0;
-  opacity: 0.8;
 }
 .testicraft-d4-card:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: #cbd5e1;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.1), 0 10px 20px -5px rgba(0,0,0,0.05);
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.12), 0 10px 20px -5px rgba(0,0,0,0.08);
   z-index: 10;
 }
 .testicraft-d4-quote {
-  font-size: clamp(1.2rem, 2.5vw, 1.5rem);
+  font-size: 1.25rem;
   font-style: italic;
-  color: #0f172a;
-  line-height: 1.8;
+  color: #1e293b;
+  line-height: 1.7;
   margin: 0 0 32px 0;
   display: -webkit-box;
   -webkit-line-clamp: 4;
@@ -273,11 +273,11 @@
 .testicraft-d4-quote::before {
   content: "“";
   position: absolute;
-  top: -30px;
+  top: -24px;
   left: 50%;
   transform: translateX(-50%);
   font-size: 6rem;
-  color: rgba(var(--tc-accent-rgb, 59, 130, 246), 0.08);
+  color: rgba(var(--tc-accent-rgb, 59, 130, 246), 0.1);
   font-family: sans-serif;
   z-index: -1;
   line-height: 1;
@@ -295,10 +295,9 @@
 }
 .testicraft-d4-avatar { 
   width: 64px; height: 64px; border-radius: 50%; object-fit: cover; 
-  box-shadow: 0 4px 15px rgba(0,0,0,0.08); border: 3px solid #ffffff; 
-  margin-top: -10px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1); border: 3px solid #ffffff; 
 }
-.testicraft-d4-name { font-weight: 700; font-size: 1.1rem; margin: 0; color: #0f172a; letter-spacing: -0.01em; }
+.testicraft-d4-name { font-weight: 700; font-size: 1.1rem; margin: 0; color: #0f172a; }
 .testicraft-d4-role { font-size: 0.85rem; color: #64748b; margin: 0; text-transform: uppercase; letter-spacing: 0.08em; font-weight: 600; }
 
 /* ------------------------------------------------------------- */
@@ -360,27 +359,35 @@
 /* ------------------------------------------------------------- */
 .testicraft-d6-masonry {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: clamp(24px, 4vw, 40px);
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 32px;
   align-items: flex-start;
   width: 100%;
   padding: 40px 0;
 }
-/* Stagger the middle column down for the floating trust-wall effect */
-.testicraft-d6-card:nth-child(3n+2) {
-  margin-top: 60px;
+/* By default, no stagger for narrow screens to prevent broken flow */
+.testicraft-d6-card:nth-child(n) {
+  margin-top: 0;
 }
-@media (max-width: 1024px) { 
-  .testicraft-d6-masonry { grid-template-columns: repeat(2, 1fr); } 
-  .testicraft-d6-card:nth-child(3n+2) { margin-top: 0; }
-  .testicraft-d6-card:nth-child(2n+2) { margin-top: 40px; }
+
+/* 3-column stagger only when container is wide enough (>= 960px) */
+@container (min-width: 960px) {
+  .testicraft-d6-masonry {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .testicraft-d6-card:nth-child(3n+2) {
+    margin-top: 60px;
+  }
 }
-@media (max-width: 640px) { 
-  .testicraft-d6-masonry { 
-    grid-template-columns: 1fr;
-    padding: 20px 0;
-  } 
-  .testicraft-d6-card:nth-child(n) { margin-top: 0; }
+
+/* 2-column stagger for medium container widths */
+@container (min-width: 640px) and (max-width: 959px) {
+  .testicraft-d6-masonry {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .testicraft-d6-card:nth-child(2n+2) {
+    margin-top: 40px;
+  }
 }
 
 .testicraft-d6-card {
@@ -388,14 +395,12 @@
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 28px;
-  padding: clamp(32px, 5vw, 40px);
+  padding: 40px;
   box-shadow: 0 15px 35px rgba(0,0,0,0.04), inset 0 1px 1px rgba(255,255,255,0.9);
   border: 1px solid rgba(255,255,255,0.6);
   display: flex;
   flex-direction: column;
   transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), background 0.4s ease;
-  will-change: transform, box-shadow, background;
-  box-sizing: border-box;
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -408,22 +413,17 @@
   pointer-events: none;
 }
 
-/* Explicit Mobile Simulation Modal Overrides */
 .tc-mobile-sim .testicraft-d6-masonry {
-  grid-template-columns: 1fr;
+  display: flex;
+  flex-direction: column;
   padding: 20px 0;
-}
-.tc-mobile-sim .testicraft-d6-card:nth-child(n) {
-  margin-top: 0;
 }
 .tc-mobile-sim .testicraft-d6-card {
   padding: 24px;
   border-radius: 20px;
+  margin-top: 0 !important;
 }
 .tc-mobile-sim .testicraft-d6-avatar { width: 48px; height: 48px; }
-.tc-mobile-sim .testicraft-d6-name { font-size: 1.05rem; }
-.tc-mobile-sim .testicraft-d6-role { font-size: 0.85rem; }
-.tc-mobile-sim .testicraft-d6-quote { font-size: 1rem; }
 
 .testicraft-d6-card:hover {
   transform: translateY(-12px) scale(1.02);
@@ -447,12 +447,12 @@
 .testicraft-d6-author { 
   display: flex; 
   align-items: center; 
-  gap: clamp(12px, 2vw, 16px); 
+  gap: 16px; 
   min-width: 0;
 }
 .testicraft-d6-avatar { 
-  width: clamp(52px, 10vw, 64px); 
-  height: clamp(52px, 10vw, 64px); 
+  width: 64px; 
+  height: 64px; 
   border-radius: 50%; 
   object-fit: cover; 
   flex-shrink: 0;
@@ -466,16 +466,15 @@
 }
 .testicraft-d6-name { 
   font-weight: 800; 
-  font-size: clamp(1.1rem, 2.5vw, 1.2rem); 
+  font-size: 1.15rem; 
   margin: 0; 
   color: #0f172a; 
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  letter-spacing: -0.02em;
 }
 .testicraft-d6-role { 
-  font-size: clamp(0.85rem, 2vw, 0.9rem); 
+  font-size: 0.85rem; 
   color: #64748b; 
   margin: 4px 0 0 0; 
   white-space: nowrap;
@@ -486,7 +485,7 @@
   letter-spacing: 0.05em;
 }
 .testicraft-d6-quote {
-  font-size: clamp(1.1rem, 2.2vw, 1.25rem);
+  font-size: 1.15rem;
   line-height: 1.8;
   color: #334155;
   margin: 0;
@@ -505,32 +504,23 @@
 /* Cinematic Hero Layout, Deep Focal Hierarchy                  */
 /* ------------------------------------------------------------- */
 .testicraft-d7-grid {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(16px, 2vw, 32px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 32px;
   padding: 40px 0;
   perspective: 1500px;
 }
-@media (max-width: 1024px) { 
-  .testicraft-d7-grid { flex-direction: column; align-items: stretch; gap: 24px; padding: 20px 0; } 
-}
-
 .testicraft-d7-card {
-  flex: 1;
   background: #0f172a;
   color: #f8fafc;
   border-radius: 24px;
-  padding: clamp(32px, 5vw, 48px);
-  border: 1px solid rgba(51, 65, 85, 0.4);
+  padding: 48px 40px;
+  border: 1px solid rgba(51, 65, 85, 0.6);
   display: flex;
   flex-direction: column;
   position: relative;
   overflow: hidden;
-  /* Deep recess for side cards by default */
-  opacity: 0.35; 
-  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
-  transform: scale(0.9) translateZ(-50px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4);
   transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.7s ease, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
   will-change: transform, opacity, box-shadow;
 }
@@ -555,58 +545,76 @@
   transform: rotate(10deg);
 }
 
-/* Base "Spotlight" state: Middle card is the hero if nothing is hovered */
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) {
-  opacity: 1;
-  transform: scale(1.05) translateZ(20px);
-  box-shadow: 0 0 100px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15), 0 40px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
-  border-color: rgba(100, 116, 139, 0.6);
-  z-index: 10;
-}
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::before,
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::after { opacity: 1; }
-.testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) .testicraft-quote-icon {
-  color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.1);
-  transform: rotate(0deg) scale(1.1);
-}
-
-/* Hover State: The hovered card takes the spotlight */
-.testicraft-d7-grid:hover .testicraft-d7-card:hover {
-  opacity: 1;
-  transform: scale(1.08) translateZ(30px);
-  box-shadow: 0 0 120px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.2), 0 50px 100px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.1);
-  border-color: rgba(148, 163, 184, 0.5);
-  z-index: 20;
-}
-.testicraft-d7-grid:hover .testicraft-d7-card:hover::before,
-.testicraft-d7-grid:hover .testicraft-d7-card:hover::after { opacity: 1; }
-.testicraft-d7-grid:hover .testicraft-d7-card:hover .testicraft-quote-icon {
-  color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.12);
-  transform: rotate(0deg) scale(1.15);
-}
-
-/* Ensure non-hovered cards recede heavily when a sibling is hovered */
-.testicraft-d7-grid:hover .testicraft-d7-card:not(:hover) {
-  opacity: 0.25;
-  transform: scale(0.85) translateZ(-80px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.5);
-  border-color: rgba(30, 41, 59, 0.8);
-  z-index: 1;
-}
-
-@media (max-width: 1024px) {
-  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2),
-  .testicraft-d7-card,
-  .testicraft-d7-grid:hover .testicraft-d7-card:hover,
-  .testicraft-d7-grid:hover .testicraft-d7-card:not(:hover) {
-    transform: none; /* Disable extreme 3D scaling on mobile for stability */
+/* Base "Spotlight" state ONLY kicks in when container is wide enough for 3 columns */
+@container (min-width: 1050px) {
+  .testicraft-d7-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .testicraft-d7-card {
+    opacity: 0.35; 
+    transform: scale(0.9) translateZ(-50px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  }
+  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) {
     opacity: 1;
-    z-index: auto;
+    transform: scale(1.05) translateZ(20px);
+    box-shadow: 0 0 100px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.15), 0 40px 80px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
+    border-color: rgba(100, 116, 139, 0.6);
+    z-index: 10;
+  }
+  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::before,
+  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2)::after { opacity: 1; }
+  
+  .testicraft-d7-grid:not(:hover) .testicraft-d7-card:nth-child(2) .testicraft-quote-icon {
+    color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.1);
+    transform: rotate(0deg) scale(1.1);
+  }
+
+  .testicraft-d7-grid:hover .testicraft-d7-card:hover {
+    opacity: 1;
+    transform: scale(1.08) translateZ(30px);
+    box-shadow: 0 0 120px rgba(var(--tc-accent-rgb, 245, 158, 11), 0.2), 0 50px 100px rgba(0,0,0,0.9), inset 0 1px 0 rgba(255,255,255,0.1);
+    border-color: rgba(148, 163, 184, 0.5);
+    z-index: 20;
+  }
+  .testicraft-d7-grid:hover .testicraft-d7-card:hover::before,
+  .testicraft-d7-grid:hover .testicraft-d7-card:hover::after { opacity: 1; }
+  
+  .testicraft-d7-grid:hover .testicraft-d7-card:hover .testicraft-quote-icon {
+    color: rgba(var(--tc-accent-rgb, 245, 158, 11), 0.12);
+    transform: rotate(0deg) scale(1.15);
+  }
+
+  .testicraft-d7-grid:hover .testicraft-d7-card:not(:hover) {
+    opacity: 0.25;
+    transform: scale(0.85) translateZ(-80px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.5);
+    border-color: rgba(30, 41, 59, 0.8);
+    z-index: 1;
   }
 }
 
+/* Simplified hover for narrow/wrapped containers */
+@container (max-width: 1049px) {
+  .testicraft-d7-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6);
+    border-color: rgba(148, 163, 184, 0.5);
+  }
+  .testicraft-d7-card:hover::before,
+  .testicraft-d7-card:hover::after { opacity: 1; }
+}
+
+.tc-mobile-sim .testicraft-d7-grid {
+  display: flex;
+  flex-direction: column;
+}
+.tc-mobile-sim .testicraft-d7-card {
+  padding: 32px 24px;
+}
+
 .testicraft-d7-quote {
-  font-size: clamp(1.2rem, 2.4vw, 1.45rem);
+  font-size: 1.3rem;
   font-weight: 300;
   line-height: 1.8;
   color: #f1f5f9;
