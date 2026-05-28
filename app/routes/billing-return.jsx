@@ -12,8 +12,20 @@ export const loader = async ({ request }) => {
   console.log("Host:", host);
   console.log("Embedded:", embedded);
 
-  // Immediately redirect safely into /app
-  return redirect(`/app?shop=${shop}${host ? `&host=${host}` : ""}&embedded=${embedded}&billing=success`);
+  if (!shop) {
+    return redirect("/app");
+  }
+
+  // To prevent the "Shopify Login Page" (OAuth loop) issue, we MUST redirect the user
+  // back to the actual Shopify Admin URL, not our app's URL.
+  // This forces the Shopify Admin to natively load and mount our app inside the iframe safely,
+  // providing all the necessary App Bridge tokens without triggering a new OAuth flow.
+  const cleanShop = shop.replace(".myshopify.com", "");
+  const apiKey = process.env.SHOPIFY_API_KEY || "";
+  
+  const adminUrl = `https://admin.shopify.com/store/${cleanShop}/apps/${apiKey}/app?billing=success&host=${host || ""}`;
+
+  return redirect(adminUrl);
 };
 
 export default function BillingReturn() {
