@@ -29,16 +29,12 @@ export const action = async ({ request }) => {
       throw new Error("SHOPIFY_APP_URL missing");
     }
 
-    // Redirect directly to /app after approval with billing=success flag
-    returnUrl = new URL(
-      `/app?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1&billing=success`,
-      baseUrl
-    ).toString();
+    returnUrl = `${baseUrl}/billing-return?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1`;
   } catch (err) {
     console.error("Error constructing returnUrl:", err);
-    returnUrl = `https://testicraft.hostvault.online/app?shop=${session.shop}&embedded=1&billing=success`;
+    returnUrl = `https://testicraft.hostvault.online/billing-return?shop=${session.shop}&embedded=1`;
   }
-  console.log("final returnUrl:", returnUrl);
+  console.log("RETURN URL:", returnUrl);
 
   // If user requests to downgrade to Free, cancel their current active billing subscription
   if (plan === "Free") {
@@ -119,6 +115,7 @@ export const action = async ({ request }) => {
 
     if (confirmationUrl) {
       console.log("EXTRACTED CONFIRMATION URL:", confirmationUrl);
+      console.log("CONFIRMATION URL:", confirmationUrl);
       return Response.json({ confirmationUrl });
     } else {
       console.error("No confirmationUrl found in response");
