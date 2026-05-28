@@ -32,24 +32,7 @@ export default function Auth() {
 
       <header className="relative z-10 mx-auto flex h-[72px] max-w-[1230px] items-center px-6 sm:px-8 lg:px-10">
         <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
-          <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-[#845cff] to-[#ec5aa1] shadow-[0_14px_38px_rgba(132,92,255,0.28)]">
-            <svg
-              className="h-[18px] w-[18px] text-white"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              aria-hidden="true"
-            >
-              <path d="M7 9h10M7 13h6" />
-              <path d="M5 4h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2h-7l-5 3v-3H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z" />
-            </svg>
-          </span>
-          <span className="text-[24px] font-extrabold tracking-[-0.035em] text-white sm:text-[25px]">
-            TestiCraft
-          </span>
+          <img src="/logo.png" alt="TestiCraft Logo" className="h-14 w-auto object-contain" />
         </a>
       </header>
 
