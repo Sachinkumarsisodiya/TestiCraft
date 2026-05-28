@@ -29,15 +29,14 @@ export const action = async ({ request }) => {
       throw new Error("SHOPIFY_APP_URL missing");
     }
 
-    // The embedded=1 parameter prevents Shopify App Remix from triggering a new OAuth flow
-    // when returning from the top-level Shopify billing approval screen.
+    // Redirect directly to /app after approval with billing=success flag
     returnUrl = new URL(
-      `/app/pricing?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1`,
+      `/app?shop=${session.shop}${host ? `&host=${host}` : ""}&embedded=1&billing=success`,
       baseUrl
     ).toString();
   } catch (err) {
     console.error("Error constructing returnUrl:", err);
-    returnUrl = `https://testicraft.hostvault.online/app/pricing?shop=${session.shop}&embedded=1`;
+    returnUrl = `https://testicraft.hostvault.online/app?shop=${session.shop}&embedded=1&billing=success`;
   }
   console.log("final returnUrl:", returnUrl);
 
