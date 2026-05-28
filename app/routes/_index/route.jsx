@@ -84,11 +84,7 @@ export default function Index() {
       <nav className="relative z-50 border-b border-white/[0.06] bg-[#05050c]/60 backdrop-blur-2xl">
         <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 sm:px-8">
           <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
-            <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-[#8d61ff] to-[#ec4899] shadow-[0_12px_35px_rgba(151,86,255,0.3)]">
-              <svg className="h-[20px] w-[20px] text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-              </svg>
-            </span>
+            <img src="/logo.png" alt="TestiCraft Logo" className="h-12 w-auto object-contain" />
             <span className="text-[22px] font-extrabold tracking-[-0.03em] text-white">TestiCraft</span>
           </a>
 
