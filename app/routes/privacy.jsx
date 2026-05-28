@@ -143,6 +143,7 @@ export default function PrivacyPolicy() {
         <div className="mx-auto flex h-20 max-w-[1280px] items-center justify-between px-6 sm:px-8">
           <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
             <img src="/logo.png" alt="TestiCraft Logo" className="h-12 w-auto object-contain" />
+            <span className="text-[22px] font-extrabold tracking-[-0.03em] text-white">TestiCraft</span>
           </a>
         </div>
       </nav>

@@ -33,6 +33,9 @@ export default function Auth() {
       <header className="relative z-10 mx-auto flex h-[72px] max-w-[1230px] items-center px-6 sm:px-8 lg:px-10">
         <a href="/" className="flex items-center gap-3" aria-label="TestiCraft home">
           <img src="/logo.png" alt="TestiCraft Logo" className="h-14 w-auto object-contain" />
+          <span className="text-[24px] font-extrabold tracking-[-0.035em] text-white sm:text-[25px]">
+            TestiCraft
+          </span>
         </a>
       </header>
 
