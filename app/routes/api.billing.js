@@ -23,8 +23,12 @@ export const action = async ({ request }) => {
 
   let returnUrl;
   try {
-    const baseUrl = process.env.SHOPIFY_APP_URL || "https://testicraft.hostvault.online";
+    const baseUrl = process.env.SHOPIFY_APP_URL;
     
+    if (!baseUrl) {
+      throw new Error("SHOPIFY_APP_URL missing");
+    }
+
     // The embedded=1 parameter prevents Shopify App Remix from triggering a new OAuth flow
     // when returning from the top-level Shopify billing approval screen.
     returnUrl = new URL(
