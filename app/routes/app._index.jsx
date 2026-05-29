@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useFetcher, useLoaderData, Form, useRouteError } from "react-router";
+import { useFetcher, useLoaderData, Form, useRouteError, useNavigate } from "react-router";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Icon, Modal, Banner, Spinner } from "@shopify/polaris";
 import { LockIcon, ViewIcon } from "@shopify/polaris-icons";
 import prisma from "../db.server";
@@ -72,6 +72,7 @@ export const action = async ({ request }) => {
 export default function Dashboard() {
   const { widget, activeTier } = useLoaderData() || {};
   const fetcher = useFetcher();
+  const navigate = useNavigate();
 
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewDesign, setPreviewDesign] = useState("design-1");
@@ -708,7 +709,7 @@ export default function Dashboard() {
               display: "flex", justifyContent: "center", gap: "12px", marginTop: "32px", marginBottom: "12px",
               pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto" 
             }}>
-              <Button onClick={() => setUpgradeModalPlan(null)} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
+              <Button onClick={() => navigate("/app/pricing")} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
               <Button onClick={() => setUpgradeModalPlan(null)} disabled={billingFetcher.state !== "idle"}>Cancel</Button>
               <button 
                 type="button" 

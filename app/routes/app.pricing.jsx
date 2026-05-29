@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLoaderData, Form, useRouteError, useFetcher } from "react-router";
+import { useLoaderData, Form, useRouteError, useFetcher, useNavigate } from "react-router";
 import { Page, Text, BlockStack, InlineStack, Button, Grid, Modal, Banner, Spinner } from "@shopify/polaris";
 import shopify from "../shopify.server";
 import { TestiCraftLogo } from "../components/TestiCraftLogo";
@@ -65,6 +65,7 @@ export default function Pricing() {
   const { activeTier, charge_id, host, embedded, shop, apiKey } = useLoaderData() || {};
   const [checkoutPlan, setCheckoutPlan] = useState(null);
   const [showSuccessBanner, setShowSuccessBanner] = useState(!!charge_id);
+  const navigate = useNavigate();
 
   const openCheckout = (planKey) => setCheckoutPlan(planKey);
   const closeCheckout = () => setCheckoutPlan(null);
@@ -401,7 +402,7 @@ export default function Pricing() {
                     display: "flex", justifyContent: "center", gap: "12px", marginTop: "32px", marginBottom: "12px",
                     pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto"
                   }}>
-                    <Button onClick={closeCheckout} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
+                    <Button onClick={() => { closeCheckout(); navigate("/app/pricing"); }} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
                     <Button onClick={closeCheckout} disabled={billingFetcher.state !== "idle"}>Cancel</Button>
                     <button 
                       type="button" 
