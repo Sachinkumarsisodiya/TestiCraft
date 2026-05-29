@@ -402,7 +402,6 @@ export default function Pricing() {
                     display: "flex", justifyContent: "center", gap: "12px", marginTop: "32px", marginBottom: "12px",
                     pointerEvents: billingFetcher.state !== "idle" ? "none" : "auto"
                   }}>
-                    <Button onClick={() => { closeCheckout(); navigate("/app/pricing"); }} disabled={billingFetcher.state !== "idle"}>View All Plans</Button>
                     <Button onClick={closeCheckout} disabled={billingFetcher.state !== "idle"}>Cancel</Button>
                     <button 
                       type="button" 
